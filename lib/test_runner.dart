@@ -1,18 +1,32 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:testui3/test_event_parser.dart';
 
 class TestRunner {
-  final StreamController<String> _controller = StreamController<String>();
+  StreamController<dynamic> _controller = StreamController<dynamic>();
+  Process? _process;
 
-  Stream<String> runAll() {
-    // Simulate running tests and sending updates
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      _controller.add('Test update at ${DateTime.now()}');
+  Stream<dynamic> runAll() async* {
+    final parser = TestEventParser();
+    _process = await Process.start('dart', ['test', '-r', 'json']);
+
+    _process?.stdout.transform(utf8.decoder).transform(LineSplitter()).listen((line) {
+      try {
+        final event = parser.parseEvent(line);
+        _controller.add(event);
+      } catch (e) {
+        print('Error parsing event: $e');
+      }
     });
-    return _controller.stream;
+
+    yield* _controller.stream;
   }
 
   void stopAll() {
-    // Stop all tests and close the stream
+    _process?.kill();
     _controller.close();
+    _controller = StreamController<dynamic>();
   }
 }
