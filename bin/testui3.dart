@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dart_console/dart_console.dart';
-import 'package:pixel_prompt/pixel_prompt.dart';
-
-final console = Console();
+import 'package:testui3/src/key_event.dart';
 
 void main() async {
+  final console = Console();
   try {
     console.rawMode = true;
 
-    final Rect rect = Rect(x: 0, y: 0, width: 0, height: 0);
+    // Get and store initial window size
+    // final _rect = Rect(x: 0, y: 0, width: console.windowWidth, height: console.windowHeight);
     if (!stdout.supportsAnsiEscapes) {
       console.write('ANSI escaped codes are not supported');
     }
@@ -23,31 +23,43 @@ void main() async {
       console.resetCursorPosition();
     }
 
-    final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
+    // Setup periodic screen refresh
+    final timer = Timer.periodic(Duration(milliseconds: 100), (_) {
       draw();
     });
 
+    // Listen for keyboard input
     final sub = stdin.listen((event) {
-      state = event.toString();
+      final keyEvent = KeyEvent.fromBytes(event);
 
-        // AI!
+      state = keyEvent.toString();
+      draw();
+
+      // Handle 'q' key press
+      if (keyEvent.type == KeyType.character && keyEvent.character == 'q') {
+        exitApp(console, null);
+      }
     });
-  } catch (e) {
-    crash(e.toString());
+
+    await Future.any([ProcessSignal.sigint.watch().first, sub.asFuture<void>()]);
+
+    await sub.cancel();
+    timer.cancel();
+    exitApp(console, null);
+  } catch (err) {
+    exitApp(console, err.toString());
   }
 }
 
-void refreshScreen() {
+void exitApp(Console console, String? errorMessage) {
   console.clearScreen();
-  console.write(DateTime.timestamp().toString());
-  Future.delayed(Duration(milliseconds: 16));
-  console.resetCursorPosition();
-}
-
-void crash(String message) {
-  console.clearScreen();
-  console.resetCursorPosition();
   console.rawMode = false;
-  console.write(message);
-  exit(1);
+  console.resetCursorPosition();
+
+  if (errorMessage != null) {
+    console.write(errorMessage);
+    exit(1);
+  } else {
+    exit(0);
+  }
 }
