@@ -3,7 +3,7 @@ Tasks:
 following is the roadmap for planned future features.
 
 [ ] basic functionality
-  - [ ] displaying the list of currently running tests
+  - [ ] displaying the list of tests we currently work with
   - [ ] displaying output of completed tests (success or failure)
   - [ ] switching between selected tests with arrow keys
   - [ ] rerunning selected test only (uses the test descripton/name)
