@@ -25,9 +25,14 @@ void main() async {
         console.writeLine('Suite:$suite');
 
         for (final test in (state.tests[suite]?.keys ?? [])) {
-          console.writeLine(
-            '* ${state.tests[suite]?[test]?.name}  | ${state.tests[suite]?[test]?.result}',
-          );
+          final testState = state.tests[suite]?[test];
+          final colorCode = testState?.result == 'success'
+              ? '\x1B[32m' // Green for success
+              : testState?.result == 'running'
+              ? '\x1B[33m' // Yellow for running
+              : '\x1B[31m'; // Red for failure
+
+          console.writeLine('$colorCode> ${testState?.name}  | ${testState?.result}\x1B[0m');
         }
       }
       console.resetCursorPosition();
