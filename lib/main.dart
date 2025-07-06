@@ -5,6 +5,7 @@ import 'package:dart_console/dart_console.dart';
 import 'package:testui3/app_state.dart';
 import 'package:testui3/key_event.dart';
 import 'package:testui3/test_runner.dart';
+import 'package:testui3/test_event_mapper.dart';
 
 void main() async {
   final console = Console();
@@ -17,23 +18,23 @@ void main() async {
 
     void draw() {
       console.clearScreen();
-      console.write(DateTime.timestamp().toString());
-      for (final file in state.tests.keys) {
-        console.write(file);
-        console.write(' ');
-        console.write(state.tests[file] ?? '<no path>');
-        console.write('\n');
+      console.writeLine(state.statusLine);
 
-        for (final test in (state.tests[file]?.keys ?? [])) {
-          console.write('* ');
-          console.write(state.tests[file]?[test] ?? '<no state>');
-          console.write('\n');
+      // console.write(DateTime.timestamp().toString());
+      for (final suite in state.tests.keys) {
+        console.writeLine('Suite:$suite');
+
+        for (final test in (state.tests[suite]?.keys ?? [])) {
+          console.writeLine('* ${state.tests[suite]?[test]?.name}  | ${state.tests[suite]?[test]?.result}');
         }
       }
       console.resetCursorPosition();
     }
 
+    final eventProcessor = TestEventMapper(state);
+
     final runnerSub = testRunner.stream.listen((event) {
+      eventProcessor.process(event);
       draw();
     });
 
