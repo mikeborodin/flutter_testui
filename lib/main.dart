@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dart_console/dart_console.dart';
 import 'package:testui3/app_state.dart';
+import 'package:testui3/draw.dart';
 import 'package:testui3/key_event.dart';
 import 'package:testui3/test_runner.dart';
 import 'package:args/args.dart';
@@ -21,33 +22,11 @@ void main(List<String> arguments) async {
 
     final state = AppState();
 
-    void draw() {
-      console.clearScreen();
-      console.writeLine(state.statusLine);
-
-      // console.write(DateTime.timestamp().toString());
-      for (final suite in state.tests.keys) {
-        console.writeLine('Suite:$suite');
-
-        for (final test in (state.tests[suite]?.keys ?? [])) {
-          final testState = state.tests[suite]?[test];
-          final colorCode = testState?.result == 'success'
-              ? '\x1B[32m' // Green for success
-              : testState?.result == 'running'
-              ? '\x1B[33m' // Yellow for running
-              : '\x1B[31m'; // Red for failure
-
-          console.writeLine('$colorCode> ${testState?.name}  | ${testState?.result}\x1B[0m');
-        }
-      }
-      console.resetCursorPosition();
-    }
-
     final eventProcessor = TestEventMapper(state);
 
     final runnerSub = testRunner.stream.listen((event) {
       eventProcessor.process(event);
-      draw();
+      draw(console, state);
     });
 
     testRunner.runAll();
@@ -56,8 +35,8 @@ void main(List<String> arguments) async {
       console.write('ANSI escaped codes are not supported');
     }
 
-    final timer = Timer.periodic(Duration(milliseconds: 20), (_) {
-      draw();
+    final timer = Timer.periodic(Duration(milliseconds: 100), (_) {
+      draw(console, state);
     });
 
     final sub = stdin.listen((event) {
@@ -65,7 +44,7 @@ void main(List<String> arguments) async {
 
       state.statusLine = 'pressed $keyEvent';
 
-      draw();
+      draw(console, state);
 
       if (keyEvent.type == KeyType.character && keyEvent.character == 's') {
         testRunner.stopAll();
