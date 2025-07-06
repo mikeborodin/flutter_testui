@@ -1,3 +1,3 @@
 import 'package:testui3/main.dart' as app;
 
-void main() => app.main();
+void main(List<String> args) => app.main(args);

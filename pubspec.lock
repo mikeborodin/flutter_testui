@@ -241,15 +241,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  pixel_prompt:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "6ac038bcd0dcccb7224d96b1ada7fe514c3c6863"
-      url: "https://github.com/primequantuM4/pixel_prompt"
-    source: git
-    version: "0.0.1"
   pool:
     dependency: transitive
     description:

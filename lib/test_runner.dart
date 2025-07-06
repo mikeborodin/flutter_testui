@@ -5,6 +5,9 @@ import 'dart:io';
 import 'package:testui3/test_event_parser.dart';
 
 class TestRunner {
+  final String testCommand;
+
+  TestRunner(this.testCommand);
   final StreamController<dynamic> _controller = StreamController<dynamic>();
   Process? _process;
 
@@ -12,7 +15,8 @@ class TestRunner {
 
   Future<void> runAll() async {
     final parser = TestEventParser();
-    _process = await Process.start('dart', ['test', '-r', 'json']);
+    final commandParts = testCommand.split(' ');
+    _process = await Process.start(commandParts[0], commandParts.sublist(1));
 
     _process?.stdout.transform(utf8.decoder).transform(LineSplitter()).listen((line) {
       try {

@@ -5,11 +5,16 @@ import 'package:dart_console/dart_console.dart';
 import 'package:testui3/app_state.dart';
 import 'package:testui3/key_event.dart';
 import 'package:testui3/test_runner.dart';
+import 'package:args/args.dart';
 import 'package:testui3/test_event_mapper.dart';
 
-void main() async {
+void main(List<String> arguments) async {
+  final parser = ArgParser()..addOption('command', abbr: 'c', defaultsTo: 'dart test -r json');
+  final argResults = parser.parse(arguments);
+  final testCommand = argResults['command'] as String;
+
   final console = Console();
-  final testRunner = TestRunner();
+  final testRunner = TestRunner(testCommand);
 
   try {
     console.rawMode = true;
