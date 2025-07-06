@@ -3,22 +3,31 @@ import 'dart:io';
 
 import 'package:dart_console/dart_console.dart';
 import 'package:testui3/key_event.dart';
+import 'package:testui3/test_runner.dart';
 
 void main() async {
   final console = Console();
+  final testRunner = TestRunner();
+
   try {
     console.rawMode = true;
 
-    if (!stdout.supportsAnsiEscapes) {
-      console.write('ANSI escaped codes are not supported');
-    }
-
     String state = '';
+
     void draw() {
       console.clearScreen();
       console.write(DateTime.timestamp().toString());
       console.write(state);
       console.resetCursorPosition();
+    }
+
+    final runnerSub = testRunner.runAll().listen((event) {
+      state = 'Current Test State: ${event.toString()}';
+      draw();
+    });
+
+    if (!stdout.supportsAnsiEscapes) {
+      console.write('ANSI escaped codes are not supported');
     }
 
     final timer = Timer.periodic(Duration(milliseconds: 100), (_) {
@@ -31,14 +40,17 @@ void main() async {
       state = keyEvent.toString();
       draw();
 
-      if (keyEvent.type == KeyType.character && keyEvent.character == 'q') {
+      if (keyEvent.type == KeyType.character && keyEvent.character == 's') {
+        testRunner.stopAll();
+      } else if (keyEvent.type == KeyType.character && keyEvent.character == 'q') {
         exitApp(console, null);
       }
     });
 
-    await Future.any([ProcessSignal.sigint.watch().first, sub.asFuture<void>()]);
+    await Future.any([ProcessSignal.sigint.watch().first, sub.asFuture(), runnerSub.asFuture()]);
 
     await sub.cancel();
+    await runnerSub.cancel();
     timer.cancel();
     exitApp(console, null);
   } catch (err) {
