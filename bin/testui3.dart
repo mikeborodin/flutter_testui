@@ -9,8 +9,6 @@ void main() async {
   try {
     console.rawMode = true;
 
-    // Get and store initial window size
-    // final _rect = Rect(x: 0, y: 0, width: console.windowWidth, height: console.windowHeight);
     if (!stdout.supportsAnsiEscapes) {
       console.write('ANSI escaped codes are not supported');
     }
@@ -23,19 +21,16 @@ void main() async {
       console.resetCursorPosition();
     }
 
-    // Setup periodic screen refresh
     final timer = Timer.periodic(Duration(milliseconds: 100), (_) {
       draw();
     });
 
-    // Listen for keyboard input
     final sub = stdin.listen((event) {
       final keyEvent = KeyEvent.fromBytes(event);
 
       state = keyEvent.toString();
       draw();
 
-      // Handle 'q' key press
       if (keyEvent.type == KeyType.character && keyEvent.character == 'q') {
         exitApp(console, null);
       }

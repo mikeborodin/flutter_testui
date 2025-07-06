@@ -1,0 +1,27 @@
+{"protocolVersion":"0.1.1","runnerVersion":"1.25.4","pid":89144,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"/Users/mike/personal_projects/testui/test/testui_s_test.dart"},"type":"s
+uite","time":0}
+{"test":{"id":1,"name":"loading /Users/mike/personal_projects/testui/test/testui_s_test.dart","suiteID":0,"groupI
+Ds":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time
+":10}
+{"suite":{"id":2,"platform":"vm","path":"/Users/mike/personal_projects/testui/test/testui_test.dart"},"type":"sui
+te","time":12}
+{"test":{"id":3,"name":"loading /Users/mike/personal_projects/testui/test/testui_test.dart","suiteID":2,"groupIDs
+":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":
+12}
+{"count":2,"time":13,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":573}
+{"group":{"id":4,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,
+"line":null,"column":null,"url":null},"type":"group","time":574}
+{"test":{"id":5,"name":"calculate3","suiteID":0,"groupIDs":[4],"metadata":{"skip":false,"skipReason":null},"line"
+:5,"column":3,"url":"file:///Users/mike/personal_projects/testui/test/testui_s_test.dart"},"type":"testStart","ti
+me":574}
+{"testID":5,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":585}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":616}
+{"group":{"id":6,"suiteID":2,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":1,
+"line":null,"column":null,"url":null},"type":"group","time":616}
+{"test":{"id":7,"name":"calculate","suiteID":2,"groupIDs":[6],"metadata":{"skip":false,"skipReason":null},"line":
+5,"column":3,"url":"file:///Users/mike/personal_projects/testui/test/testui_test.dart"},"type":"testStart","time"
+:616}
+{"testID":7,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":624}
+{"success":true,"type":"done","time":627}
