@@ -25,7 +25,9 @@ void main() async {
         console.writeLine('Suite:$suite');
 
         for (final test in (state.tests[suite]?.keys ?? [])) {
-          console.writeLine('* ${state.tests[suite]?[test]?.name}  | ${state.tests[suite]?[test]?.result}');
+          console.writeLine(
+            '* ${state.tests[suite]?[test]?.name}  | ${state.tests[suite]?[test]?.result}',
+          );
         }
       }
       console.resetCursorPosition();
@@ -44,7 +46,7 @@ void main() async {
       console.write('ANSI escaped codes are not supported');
     }
 
-    final timer = Timer.periodic(Duration(milliseconds: 100), (_) {
+    final timer = Timer.periodic(Duration(milliseconds: 20), (_) {
       draw();
     });
 

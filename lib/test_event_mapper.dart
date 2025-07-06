@@ -10,13 +10,22 @@ class TestEventMapper {
   void process(dynamic event) {
     if (event is TestStartEvent) {
       state.updateTestState(
-        event.suiteID.toString(),
-        event.name,
-        TestState(name: event.name, skipped: false, result: 'running'),
+        '0',
+        event.id.toString(),
+        TestState(name: event.id.toString(), skipped: false, result: 'running'),
       );
     } else if (event is TestDoneEvent) {
-      // Update the test state based on the event
+      state.updateTestState(
+        '0',
+        event.testID.toString(),
+        TestState(name: event.testID.toString(), skipped: event.skipped, result: event.result),
+      );
+    } else if (event is SuiteEvent) {
+      state.statusLine = 'Running suite: ${event.path}';
+    } else if (event is GroupEvent) {
+      // Handle group events if needed
+    } else if (event is DoneEvent) {
+      state.statusLine = event.success ? 'All tests passed!' : 'Some tests failed!';
     }
-    // Add more event processing logic as needed
   }
 }
