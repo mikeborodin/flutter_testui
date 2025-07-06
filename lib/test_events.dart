@@ -1,6 +1,6 @@
 class StartEvent {
   final String protocolVersion;
-  final String runnerVersion;
+  final String? runnerVersion;
   final int pid;
   final String type;
   final int time;
