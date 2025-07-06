@@ -21,10 +21,12 @@ void main() async {
       console.resetCursorPosition();
     }
 
-    final runnerSub = testRunner.runAll().listen((event) {
+    final runnerSub = testRunner.stream.listen((event) {
       state = 'Current Test State: ${event.toString()}';
       draw();
     });
+
+    testRunner.runAll();
 
     if (!stdout.supportsAnsiEscapes) {
       console.write('ANSI escaped codes are not supported');
@@ -42,6 +44,8 @@ void main() async {
 
       if (keyEvent.type == KeyType.character && keyEvent.character == 's') {
         testRunner.stopAll();
+      } else if (keyEvent.type == KeyType.character && keyEvent.character == 'r') {
+        testRunner.runAll();
       } else if (keyEvent.type == KeyType.character && keyEvent.character == 'q') {
         exitApp(console, null);
       }

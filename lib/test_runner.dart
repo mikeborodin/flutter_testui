@@ -5,10 +5,12 @@ import 'dart:io';
 import 'package:testui3/test_event_parser.dart';
 
 class TestRunner {
-  StreamController<dynamic> _controller = StreamController<dynamic>();
+  final StreamController<dynamic> _controller = StreamController<dynamic>();
   Process? _process;
 
-  Stream<dynamic> runAll() async* {
+  Stream<dynamic> get stream => _controller.stream;
+
+  Future<void> runAll() async {
     final parser = TestEventParser();
     _process = await Process.start('dart', ['test', '-r', 'json']);
 
@@ -18,15 +20,12 @@ class TestRunner {
         _controller.add(event);
       } catch (e) {
         print('Error parsing event: $e');
+        exit(2);
       }
     });
-
-    yield* _controller.stream;
   }
 
   void stopAll() {
     _process?.kill();
-    _controller.close();
-    _controller = StreamController<dynamic>();
   }
 }
