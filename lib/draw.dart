@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:dart_console/dart_console.dart';
 import 'package:testui3/app_state.dart';
 
 void draw(Console console, AppState state) {
-  // console.clearScreen();
+  console.clearScreen();
   console.resetCursorPosition();
 
   final totalLines = console.windowHeight;
@@ -22,7 +20,7 @@ void drawTopPane(Console console, AppState state, int lines) {
 
   for (final suite in state.tests.keys.skip(visibleStart)) {
     if (currentLine >= lines) break;
-    console.writeAligned('Suite: $suite', console.windowWidth);
+    console.write('Suite: $suite\n');
     currentLine++;
 
     for (final test in state.tests[suite]!.keys.skip(visibleStart)) {
@@ -34,36 +32,24 @@ void drawTopPane(Console console, AppState state, int lines) {
           ? '\x1B[33m' // Yellow for running
           : '\x1B[31m'; // Red for failure
 
-      console.writeAligned(
-        '$colorCode> ${testState?.name}  | ${testState?.result}\x1B[0m',
-        console.windowWidth,
-      );
-      if (console.cursorPosition != null) {
-        console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
-      }
-
+      console.write('$colorCode> ${testState?.name}  | ${testState?.result}\x1B[0m\n');
       currentLine++;
     }
   }
 }
 
 void drawDivider(Console console) {
-  console.writeAligned(
-    '\u2500' * console.windowWidth,
-    console.windowWidth,
-  ); // Unicode horizontal line
+  console.write('\u2500' * console.windowWidth + '\n'); // Unicode horizontal line
 }
 
 void drawBottomPane(Console console, AppState state, int lines) {
-  final lastSuite = state.tests.keys.lastOrNull;
+  final lastSuite = state.tests.keys.isNotEmpty ? state.tests.keys.last : null;
   if (lastSuite == null) {
     for (int i = 0; i < lines; i++) {
-      stdout.writeln('');
+      console.write(' ' * console.windowWidth);
+      console.cursorPosition = Coordinate(console.cursorPosition!.row + 1, 0);
     }
-    stdout.writeln('Select please');
-    if (console.cursorPosition != null) {
-      console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
-    }
+    console.write('Select please\n');
     return;
   }
 
@@ -71,18 +57,9 @@ void drawBottomPane(Console console, AppState state, int lines) {
   final testState = state.tests[lastSuite]![lastTest];
 
   for (int i = 0; i < lines; i++) {
-    stdout.writeln('');
+    console.writeLine(' ');
   }
-  stdout.writeln('Details for: ${testState?.name}');
-  if (console.cursorPosition != null) {
-    console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
-  }
-  stdout.writeln('Result: ${testState?.result}');
-  if (console.cursorPosition != null) {
-    console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
-  }
-  stdout.writeln('Skipped: ${testState?.skipped}');
-  if (console.cursorPosition != null) {
-    console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
-  }
+  console.write('Details for: ${testState?.name}\n');
+  console.write('Result: ${testState?.result}\n');
+  console.write('Skipped: ${testState?.skipped}\n');
 }
