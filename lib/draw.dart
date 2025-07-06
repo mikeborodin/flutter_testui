@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:dart_console/dart_console.dart';
 import 'package:testui3/app_state.dart';
 
 void draw(Console console, AppState state) {
-  console.clearScreen();
+  // console.clearScreen();
   console.resetCursorPosition();
 
   final totalLines = console.windowHeight;
@@ -16,11 +18,14 @@ void draw(Console console, AppState state) {
 
 void drawTopPane(Console console, AppState state, int lines) {
   int currentLine = 0;
-  for (final suite in state.tests.keys) {
+  int visibleStart = 0; // This should be dynamically set based on user input or scroll position
+
+  for (final suite in state.tests.keys.skip(visibleStart)) {
     if (currentLine >= lines) break;
-    console.writeLine('Suite: $suite');
+    console.writeAligned('Suite: $suite', console.windowWidth);
     currentLine++;
-    for (final test in state.tests[suite]!.keys) {
+
+    for (final test in state.tests[suite]!.keys.skip(visibleStart)) {
       if (currentLine >= lines) break;
       final testState = state.tests[suite]![test];
       final colorCode = testState?.result == 'success'
@@ -29,27 +34,55 @@ void drawTopPane(Console console, AppState state, int lines) {
           ? '\x1B[33m' // Yellow for running
           : '\x1B[31m'; // Red for failure
 
-      console.writeLine('$colorCode> ${testState?.name}  | ${testState?.result}\x1B[0m');
+      console.writeAligned(
+        '$colorCode> ${testState?.name}  | ${testState?.result}\x1B[0m',
+        console.windowWidth,
+      );
+      if (console.cursorPosition != null) {
+        console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
+      }
+
       currentLine++;
     }
   }
 }
 
 void drawDivider(Console console) {
-  console.writeLine('\u2500' * console.windowWidth); // Unicode horizontal line
+  console.writeAligned(
+    '\u2500' * console.windowWidth,
+    console.windowWidth,
+  ); // Unicode horizontal line
 }
 
 void drawBottomPane(Console console, AppState state, int lines) {
   final lastSuite = state.tests.keys.lastOrNull;
   if (lastSuite == null) {
-    console.writeLine('no details yet');
+    for (int i = 0; i < lines; i++) {
+      stdout.writeln('');
+    }
+    stdout.writeln('Select please');
+    if (console.cursorPosition != null) {
+      console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
+    }
     return;
   }
 
   final lastTest = state.tests[lastSuite]!.keys.last;
   final testState = state.tests[lastSuite]![lastTest];
 
-  console.writeLine('Details for: ${testState?.name}');
-  console.writeLine('Result: ${testState?.result}');
-  console.writeLine('Skipped: ${testState?.skipped}');
+  for (int i = 0; i < lines; i++) {
+    stdout.writeln('');
+  }
+  stdout.writeln('Details for: ${testState?.name}');
+  if (console.cursorPosition != null) {
+    console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
+  }
+  stdout.writeln('Result: ${testState?.result}');
+  if (console.cursorPosition != null) {
+    console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
+  }
+  stdout.writeln('Skipped: ${testState?.skipped}');
+  if (console.cursorPosition != null) {
+    console.cursorPosition = Coordinate(console.cursorPosition!.row, 1);
+  }
 }
