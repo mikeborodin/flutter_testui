@@ -6,12 +6,14 @@ class TestEventMapper {
   final AppState state;
   final Map<int, String> suiteIdToFilePath = {};
   final Map<int, String> testIdToTestName = {};
+  final Map<int, int> testIdToSuiteId = {};
 
   TestEventMapper(this.state);
 
   void process(dynamic event) {
     if (event is TestStartEvent) {
       testIdToTestName[event.id] = event.name;
+      testIdToSuiteId[event.id] = event.suiteID;
 
       state.updateTestState(
         suiteIdToFilePath[event.suiteID] ?? 'unknown',
@@ -20,8 +22,9 @@ class TestEventMapper {
       );
     } else if (event is TestDoneEvent) {
       final testName = testIdToTestName[event.testID] ?? 'unknown';
+      final suiteId = testIdToSuiteId[event.testID] ?? -1;
       state.updateTestState(
-        suiteIdToFilePath[event.testID] ?? 'unknown',
+        suiteIdToFilePath[suiteId] ?? 'unknown',
         testName,
         TestState(name: testName, skipped: event.skipped, result: event.result),
       );
@@ -29,7 +32,7 @@ class TestEventMapper {
       suiteIdToFilePath[event.id] = event.path;
       state.statusLine = 'Running suite: ${event.path}';
     } else if (event is GroupEvent) {
-      // Handle group events if needed
+      suiteIdToFilePath[event.suiteID] = suiteIdToFilePath[event.suiteID] ?? event.name;
     } else if (event is DoneEvent) {
       state.statusLine = event.success ? 'All tests passed!' : 'Some tests failed!';
     }
