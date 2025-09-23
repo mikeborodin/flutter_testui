@@ -4,10 +4,10 @@ version: 0.0.1
 publish_to: none
 environment:
   sdk: 3.8.1
-# Add regular dependencies here.
+
 dependencies:
   args: ^2.5.0
-  dart_console: ^4.1.2
+  consola: 0.1.0
 
 dev_dependencies:
   lints: ^5.0.0

@@ -91,12 +91,7 @@ class KeyEvent {
     }
 
     if (bytes[0] == 27 && bytes.length >= 3 && (bytes[1] == 79 || bytes[1] == 91)) {
-      final functionKeys = {
-        80: KeyType.f1,
-        81: KeyType.f2,
-        82: KeyType.f3,
-        83: KeyType.f4,
-      };
+      final functionKeys = {80: KeyType.f1, 81: KeyType.f2, 82: KeyType.f3, 83: KeyType.f4};
       return KeyEvent(functionKeys[bytes[2]] ?? KeyType.unknown);
     }
 

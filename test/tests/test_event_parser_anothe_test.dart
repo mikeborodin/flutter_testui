@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
-import 'package:testui3/test_event_parser.dart';
-import 'package:testui3/test_events.dart';
+import 'package:testui3/tests/test_event_parser.dart';
+import 'package:testui3/tests/test_events.dart';
 
 void main() {
   group('TestEventParser', () {

@@ -1,58 +1,66 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dart_console/dart_console.dart';
 import 'package:testui3/app_state.dart';
-import 'package:testui3/draw.dart';
-import 'package:testui3/key_event.dart';
-import 'package:testui3/test_runner.dart';
+import 'package:testui3/tests/test_event_mapper.dart';
+import 'package:testui3/ui/draw.dart';
 import 'package:args/args.dart';
-import 'package:testui3/test_event_mapper.dart';
+
+import 'terminal/terminal.dart';
+import 'tests/test_runner.dart';
 
 void main(List<String> arguments) async {
   final parser = ArgParser()..addOption('command', abbr: 'c', defaultsTo: 'dart test -r json');
   final argResults = parser.parse(arguments);
   final testCommand = argResults['command'] as String;
 
-  final console = Console();
   final testRunner = TestRunner(testCommand);
 
   try {
-    console.rawMode = true;
-
+    final terminal = Terminal()..setup();
     final state = AppState();
 
     final eventProcessor = TestEventMapper(state);
 
     final runnerSub = testRunner.stream.listen((event) {
       eventProcessor.process(event);
-      draw(console, state);
+      draw(terminal, state);
     });
 
     testRunner.runAll();
 
     if (!stdout.supportsAnsiEscapes) {
-      console.write('ANSI escaped codes are not supported');
+      terminal.write('ANSI escaped codes are not supported');
     }
 
-    final timer = Timer.periodic(Duration(milliseconds: 100), (_) {
-      draw(console, state);
+    final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
+      draw(terminal, state);
     });
 
-    final sub = stdin.listen((event) {
-      final keyEvent = KeyEvent.fromBytes(event);
-
-      state.statusLine = 'pressed $keyEvent';
-
-      draw(console, state);
-
-      if (keyEvent.type == KeyType.character && keyEvent.character == 's') {
+    final sub = terminal.readKeys().listen((keyEvent) {
+      if (keyEvent.character == 's') {
         testRunner.stopAll();
-      } else if (keyEvent.type == KeyType.character && keyEvent.character == 'r') {
+      } else if (keyEvent.character == 'r') {
         testRunner.runAll();
-      } else if (keyEvent.type == KeyType.character && keyEvent.character == 'q') {
-        exitApp(console, null);
+      } else if (keyEvent.character == 'q') {
+        exitApp(terminal, null);
+      } else if (keyEvent.character == 'e') {
+        state.index = state.index + 1;
+        state.statusLine += keyEvent.character ?? '';
+        // console.write('hello');
+        draw(terminal, state);
+      } else if (keyEvent.character == 'u') {
+        state.index = state.index - 1;
+        state.statusLine += keyEvent.character ?? '';
+        draw(terminal, state);
       }
+      if (keyEvent.character == 'q') {
+        exitApp(terminal, null);
+      }
+      if (keyEvent.character == 'r') {
+        testRunner.runAll();
+      }
+      state.statusLine = keyEvent.toString();
     });
 
     await Future.any([ProcessSignal.sigint.watch().first, sub.asFuture(), runnerSub.asFuture()]);
@@ -60,19 +68,20 @@ void main(List<String> arguments) async {
     await sub.cancel();
     await runnerSub.cancel();
     timer.cancel();
-    exitApp(console, null);
+    exitApp(terminal, null);
   } catch (err) {
-    exitApp(console, err.toString());
+    // console.showCursor();
+    // exitApp(console, err.toString());
   }
 }
 
-void exitApp(Console console, String? errorMessage) {
-  console.clearScreen();
-  console.rawMode = false;
-  console.resetCursorPosition();
+void exitApp(Terminal terminal, String? errorMessage) {
+  // console.;
+  // console.rawMode = false;
+  // console.resetCursorPosition();
 
   if (errorMessage != null) {
-    console.write(errorMessage);
+    terminal.write(errorMessage);
     exit(1);
   } else {
     exit(0);

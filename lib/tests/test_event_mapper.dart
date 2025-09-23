@@ -1,6 +1,6 @@
 import 'package:testui3/app_state.dart';
-import 'package:testui3/test_events.dart';
-import 'package:testui3/test_state.dart';
+import 'package:testui3/tests/test_events.dart';
+import 'package:testui3/tests/test_state.dart';
 
 class TestEventMapper {
   final AppState state;
