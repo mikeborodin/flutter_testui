@@ -18,6 +18,7 @@ void main(List<String> arguments) async {
 
   try {
     final terminal = Terminal()..setup();
+    terminal.write('\x1B[?25l'); // Hide the cursor using escape sequence
     final state = AppState();
 
     final eventProcessor = TestEventMapper(state);
@@ -80,6 +81,7 @@ void exitApp(Terminal terminal, String? errorMessage) {
   // console.rawMode = false;
   // console.resetCursorPosition();
 
+  terminal.write('\x1B[?25h'); // Show the cursor using escape sequence
   if (errorMessage != null) {
     terminal.write(errorMessage);
     exit(1);

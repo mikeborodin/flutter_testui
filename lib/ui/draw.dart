@@ -1,19 +1,88 @@
-import 'dart:io';
-
 import 'package:testui3/app_state.dart';
 import 'package:testui3/terminal/terminal.dart';
 
+import 'widgets.dart';
+
 void draw(Terminal t, AppState state) {
-  stdout.writeln('status; ${state.statusLine}');
-
   t.clear();
-  final totalLines = t.getWindowHeight();
-  final topPaneLines = (totalLines * 0.6).toInt();
-  final bottomPaneLines = totalLines - topPaneLines - 1; // -1 for the divider
 
-  drawTopPane(t, state, topPaneLines);
-  drawDivider(t);
-  drawBottomPane(t, state, bottomPaneLines);
+  final lines = t.getWindowHeight() - 1;
+
+  List<String> screen = [];
+
+  int currentLine = 0;
+  int visibleStart = 0; // This should be dynamically set based on user input or scroll position
+
+  for (final suite in state.tests.keys.skip(visibleStart)) {
+    if (currentLine >= lines) break;
+    screen.add('Suite: $suite\n');
+    currentLine++;
+
+    for (final test in state.tests[suite]!.keys.skip(visibleStart)) {
+      if (currentLine >= lines) break;
+      final testState = state.tests[suite]![test];
+      final colorCode = testState?.result == 'success'
+          ? '\x1B[32m' // Green for success
+          : testState?.result == 'running'
+          ? '\x1B[33m' // Yellow for running
+          : '\x1B[31m'; // Red for failure
+
+      final line =
+          '$colorCode ${state.index == currentLine ? '>' : ' '} ${testState?.name}  | ${testState?.result}\x1B[0m';
+
+      screen.add(line);
+
+      currentLine++;
+    }
+  }
+
+  final width = (t.getWindowWidth()).toInt();
+
+  t.write(
+    [
+      // ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),
+      // ...divider(t),
+      row(
+        width: width,
+        height: 6,
+        children: [
+          // verticalPadding(child: ['Flutter Test UI'], height: 4, width: width),
+          [text('Flutter TEST UI', color: Colors.cyan, bold: true)],
+          ['Details'],
+        ],
+      ),
+
+      divider(width: width),
+      row(
+        children: [
+          [
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+          ],
+          [
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+            '// ...screen.map((s) => s.length <= width ? s : s.substring(0, width + 1)),',
+          ],
+          ['b'],
+        ],
+        width: width,
+        height: 3,
+      ),
+      row(
+        width: width,
+        height: 6,
+        children: [
+          // verticalPadding(child: ['Flutter Test UI'], height: 4, width: width),
+          ['List'],
+          ['Details'],
+        ],
+      ),
+    ].map((l) => l.join('\n')).join('\n'),
+  );
 }
 
 void drawTopPane(Terminal t, AppState state, int lines) {
@@ -46,8 +115,8 @@ void drawTopPane(Terminal t, AppState state, int lines) {
   }
 }
 
-void drawDivider(Terminal t) {
-  t.write('\u2500' * t.getWindowWidth() + '\n'); // Unicode horizontal line
+List<String> divider({required width}) {
+  return ['\u2500' * width];
 }
 
 void drawBottomPane(Terminal t, AppState state, int lines) {
