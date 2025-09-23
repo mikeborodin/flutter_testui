@@ -1,5 +1,6 @@
 # Project goal
 This is a terminal application project in Dart. 
+
 The main goal is to: 
 * display the output of `dart test` or `flutter test` commands in a more developer-friendly way (as a TUI).
 * allow easily (re)running tests with keyboard-driven input
