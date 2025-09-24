@@ -179,13 +179,25 @@ String truncateWithoutRemovingEscapeSequences(String input, int maxLength) {
   return buffer.toString();
 }
 
-List<String> row({required List<List<String>> children, required int height, required int width}) {
+List<String> row({
+  required List<List<String>> children,
+  required int height,
+  required int width,
+  List<int> flex = const [],
+}) {
   List<String> rows = List.generate(height, (_) => '');
+
+  final totalFlex = flex.reduce((a, b) => a + b);
+  final equalFlexWidth = (width / totalFlex).toInt() - children.length + 1;
 
   for (int i = 0; i < height; i++) {
     for (int j = 0; j < children.length; j++) {
       final child = children[j];
-      final childWidth = ((width) / children.length).toInt() - children.length + 1;
+
+      final normalChildWidth = ((width) / children.length).toInt() - children.length + 1;
+      final flexWidth = flex.isNotEmpty ? flex[j] * equalFlexWidth : null;
+
+      final childWidth = flexWidth ?? normalChildWidth;
 
       final content = child.length > i ? child[i] : '';
       final visibleContentLength = content
