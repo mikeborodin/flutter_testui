@@ -112,11 +112,22 @@ class Colors {
   static const String brightWhite = '\x1B[97m';
 }
 
-String text(String content, {String color = '', bool bold = false, bool underline = false}) {
+
+
+String colored(
+  String content, {
+  String fg = '',
+  String bg = '',
+  bool bold = false,
+  bool underline = false,
+}) {
   final buffer = StringBuffer();
 
-  if (color.isNotEmpty) {
-    buffer.write(color);
+  if (fg.isNotEmpty) {
+    buffer.write(fg);
+  }
+  if (bg.isNotEmpty) {
+    buffer.write('\x1B[48;5;${bg}m'); // Correctly set background color
   }
   if (bold) {
     buffer.write('\x1B[1m');
@@ -133,19 +144,61 @@ String text(String content, {String color = '', bool bold = false, bool underlin
   return buffer.toString();
 }
 
+String truncateWithoutRemovingEscapeSequences(String input, int maxLength) {
+  final buffer = StringBuffer();
+  int visibleLength = 0;
+
+  final regex = RegExp(r'\x1B\[[0-9;]*m|\x1B\[0m');
+  final matches = regex.allMatches(input);
+  int lastMatchEnd = 0;
+
+  for (final match in matches) {
+    if (visibleLength >= maxLength) break;
+
+    final segment = input.substring(lastMatchEnd, match.start);
+    final segmentLength = segment.length;
+
+    if (visibleLength + segmentLength > maxLength) {
+      buffer.write(segment.substring(0, maxLength - visibleLength));
+      visibleLength = maxLength;
+    } else {
+      buffer.write(segment);
+      visibleLength += segmentLength;
+    }
+
+    buffer.write(match.group(0));
+    lastMatchEnd = match.end;
+  }
+
+  if (visibleLength < maxLength) {
+    buffer.write(
+      input.substring(lastMatchEnd, input.length).substring(0, maxLength - visibleLength),
+    );
+  }
+
+  return buffer.toString();
+}
+
 List<String> row({required List<List<String>> children, required int height, required int width}) {
   List<String> rows = List.generate(height, (_) => '');
 
   for (int i = 0; i < height; i++) {
     for (int j = 0; j < children.length; j++) {
       final child = children[j];
-      final childWidth = ((width - children.length + 1) / children.length).toInt();
+      final childWidth = ((width) / children.length).toInt() - children.length + 1;
 
       final content = child.length > i ? child[i] : '';
-      final truncatedContent = content.trim().isNotEmpty && content.length > childWidth
-          ? '${content.substring(0, childWidth - 1)}…'
+      final visibleContentLength = content
+          .replaceAll(RegExp(r'\x1B\[[0-9;]*m|\x1B\[0m'), '')
+          .length;
+
+      final truncatedContent = visibleContentLength > childWidth
+          ? '${truncateWithoutRemovingEscapeSequences(content, childWidth - 1)}…'
           : content;
-      rows[i] += truncatedContent.padRight(childWidth);
+
+      rows[i] += truncatedContent.padRight(
+        childWidth - visibleContentLength + truncatedContent.length,
+      );
 
       if (j < children.length - 1) {
         rows[i] += '\u2502';
