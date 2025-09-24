@@ -6,6 +6,10 @@ void main() {
   group('TestEventParser', () {
     final parser = TestEventParser();
 
+    test('should fail', () {
+      expect(true, false);
+    });
+
     test('should parse StartEvent', () {
       const jsonLine =
           '{"protocolVersion":"0.1.1","runnerVersion":"1.25.4","pid":89144,"type":"start","time":0}';

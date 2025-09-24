@@ -34,34 +34,45 @@ void main(List<String> arguments) async {
       terminal.write('ANSI escaped codes are not supported');
     }
 
-    final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
-      // draw(terminal, state);
-    });
+    // final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
+    // draw(terminal, state);
+    // });
 
     final sub = terminal.readKeys().listen((keyEvent) {
       if (keyEvent.character == 's') {
         testRunner.stopAll();
-      } else if (keyEvent.character == 'r') {
+      }
+
+      if (keyEvent.character == 'r') {
         // testRunner.runAll();
         draw(terminal, state);
-      } else if (keyEvent.character == 'q') {
+      }
+
+      if (keyEvent.character == 'q') {
         exitApp(terminal, null);
-      } else if (keyEvent.character == 'e') {
+      }
+
+      if (keyEvent.character == 'e') {
         state.index = state.index + 1;
         state.statusLine += keyEvent.character ?? '';
         // console.write('hello');
         draw(terminal, state);
-      } else if (keyEvent.character == 'u') {
+      }
+
+      if (keyEvent.character == 'u') {
         state.index = state.index - 1;
         state.statusLine += keyEvent.character ?? '';
         draw(terminal, state);
       }
+
       if (keyEvent.character == 'q') {
         exitApp(terminal, null);
       }
+
       if (keyEvent.character == 'r') {
         testRunner.runAll();
       }
+
       state.statusLine = keyEvent.toString();
     });
 
@@ -69,7 +80,7 @@ void main(List<String> arguments) async {
 
     await sub.cancel();
     await runnerSub.cancel();
-    timer.cancel();
+    // timer.cancel();
     exitApp(terminal, null);
   } catch (err) {
     // console.showCursor();

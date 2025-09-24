@@ -1,6 +1,8 @@
 import 'package:testui3/app_state.dart';
 import 'package:testui3/terminal/terminal.dart';
+import 'package:testui3/ui/icons.dart';
 
+import 'colors.dart';
 import 'widgets.dart';
 
 void draw(Terminal t, AppState state) {
@@ -32,8 +34,13 @@ void draw(Terminal t, AppState state) {
           ? FgColors.yellow
           : FgColors.red;
 
-      final line =
-          '${state.index == currentLine ? '>' : ' '}${testState?.name}  | ${testState?.result}';
+      final icon = testState?.result == 'success'
+          ? Icons.check
+          : testState?.result == 'running'
+          ? Icons.inProgress
+          : Icons.error;
+
+      final line = ' $icon ${testState?.name}';
 
       final bg = selected() ? BgColors.yellow : '';
 
@@ -49,11 +56,17 @@ void draw(Terminal t, AppState state) {
         children: [
           testList,
           [colored(state.index.toString(), fg: FgColors.red)],
-          ['hello'],
+          [
+            ...wrapped(
+              "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+              width: (width / 3).toInt()-2,
+            ),
+          ],
         ],
         width: width,
-        height: t.getWindowHeight(),
+        height: t.getWindowHeight() - 1,
       ),
+      [colored(state.statusLine.padRight(width), bg: BgColors.brightBlue, fg: FgColors.black)],
     ].map((l) => l.join('\n')).join('\n'),
   );
 }
