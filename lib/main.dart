@@ -35,14 +35,15 @@ void main(List<String> arguments) async {
     }
 
     final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
-      draw(terminal, state);
+      // draw(terminal, state);
     });
 
     final sub = terminal.readKeys().listen((keyEvent) {
       if (keyEvent.character == 's') {
         testRunner.stopAll();
       } else if (keyEvent.character == 'r') {
-        testRunner.runAll();
+        // testRunner.runAll();
+        draw(terminal, state);
       } else if (keyEvent.character == 'q') {
         exitApp(terminal, null);
       } else if (keyEvent.character == 'e') {

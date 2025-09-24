@@ -12,6 +12,7 @@ void draw(Terminal t, AppState state) {
 
   int currentLine = 0;
   int visibleStart = 0; // This should be dynamically set based on user input or scroll position
+  final width = (t.getWindowWidth()).toInt();
 
   for (final suite in state.tests.keys.skip(visibleStart)) {
     if (currentLine >= lines) break;
@@ -21,31 +22,33 @@ void draw(Terminal t, AppState state) {
     for (final test in state.tests[suite]!.keys.skip(visibleStart)) {
       if (currentLine >= lines) break;
       final testState = state.tests[suite]![test];
-      final fg = testState?.result == 'success'
-          ? Colors.green
+      bool selected() => state.index == currentLine;
+
+      final fg = selected()
+          ? FgColors.black
+          : testState?.result == 'success'
+          ? FgColors.green
           : testState?.result == 'running'
-          ? Colors.yellow
-          : Colors.red;
+          ? FgColors.yellow
+          : FgColors.red;
 
       final line =
           '${state.index == currentLine ? '>' : ' '}${testState?.name}  | ${testState?.result}';
 
-      final bg = state.index == currentLine ? Colors.yellow : '';
+      final bg = selected() ? BgColors.yellow : '';
 
-      testList.add(colored(line, fg: fg, bg: bg));
+      testList.add(colored(line.padRight((width / 3).toInt() - 2, ' '), fg: fg, bg: bg));
 
       currentLine++;
     }
   }
-
-  final width = (t.getWindowWidth()).toInt();
 
   t.write(
     [
       row(
         children: [
           testList,
-          [colored(state.index.toString(), fg: Colors.red)],
+          [colored(state.index.toString(), fg: FgColors.red)],
           ['hello'],
         ],
         width: width,
