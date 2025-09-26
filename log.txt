@@ -1,0 +1,42 @@
+[2025-09-26T17:24:44.249212] executableArguments: [--enable-vm-service]
+[2025-09-26T17:24:44.250301] [HotReload] Initializing hot reload support...
+[2025-09-26T17:24:44.253023] [HotReload] VM Service URL: http://127.0.0.1:8181/YEN4ZaxoCwE=/
+[2025-09-26T17:24:44.253279] [HotReload] DevTools URL: http://127.0.0.1:8181/YEN4ZaxoCwE=/devtools/?uri=ws://127.0.0.1:8181/YEN4ZaxoCwE=/ws
+[2025-09-26T17:24:44.463499] [HotReload] Hot reload initialized successfully
+[2025-09-26T17:24:44.464182] [HotReload] Watching for changes in lib/, bin/, and test/ directories...
+[2025-09-26T17:25:22.852176] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:25:22.942670] [HotReload] Compilation error during hot reload
+[2025-09-26T17:25:30.965483] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:25:31.030259] [HotReload] Compilation error during hot reload
+[2025-09-26T17:25:37.832778] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:25:37.905550] [HotReload] Hot reload successful
+[2025-09-26T17:25:37.905918] [HotReload] Reassembling application...
+[2025-09-26T17:25:37.906272] [HotReload] Application reassembled successfully
+[2025-09-26T17:26:08.913022] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:26:08.988354] [HotReload] Hot reload successful
+[2025-09-26T17:26:08.988601] [HotReload] Reassembling application...
+[2025-09-26T17:26:08.988862] [HotReload] Application reassembled successfully
+[2025-09-26T17:26:22.300687] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:26:22.364404] [HotReload] Hot reload successful
+[2025-09-26T17:26:22.364591] [HotReload] Reassembling application...
+[2025-09-26T17:26:22.364848] [HotReload] Application reassembled successfully
+[2025-09-26T17:26:26.233900] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:26:26.304679] [HotReload] Hot reload successful
+[2025-09-26T17:26:26.304870] [HotReload] Reassembling application...
+[2025-09-26T17:26:26.305047] [HotReload] Application reassembled successfully
+[2025-09-26T17:26:30.650479] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:26:30.703071] [HotReload] Hot reload successful
+[2025-09-26T17:26:30.703213] [HotReload] Reassembling application...
+[2025-09-26T17:26:30.703505] [HotReload] Application reassembled successfully
+[2025-09-26T17:26:36.795948] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:26:36.859389] [HotReload] Hot reload successful
+[2025-09-26T17:26:36.859627] [HotReload] Reassembling application...
+[2025-09-26T17:26:36.859904] [HotReload] Application reassembled successfully
+[2025-09-26T17:26:53.500948] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:26:53.565180] [HotReload] Hot reload successful
+[2025-09-26T17:26:53.565369] [HotReload] Reassembling application...
+[2025-09-26T17:26:53.565646] [HotReload] Application reassembled successfully
+[2025-09-26T17:27:17.590145] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/main_nocterm.dart
+[2025-09-26T17:27:17.636021] [HotReload] Hot reload successful
+[2025-09-26T17:27:17.636230] [HotReload] Reassembling application...
+[2025-09-26T17:27:17.636560] [HotReload] Application reassembled successfully

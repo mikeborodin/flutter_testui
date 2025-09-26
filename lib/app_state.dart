@@ -5,6 +5,12 @@ class AppState {
   int index = 0;
   String statusLine = '';
 
+  List<TestState> testsList() {
+    return tests.values.expand((file) {
+      return file.values;
+    }).toList();
+  }
+
   void updateTestState(String filePath, String testName, TestState testState) {
     if (!tests.containsKey(filePath)) {
       tests[filePath] = {};

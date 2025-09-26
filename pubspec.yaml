@@ -8,6 +8,8 @@ environment:
 dependencies:
   args: ^2.5.0
   consola: 0.1.0
+  nocterm: 0.1.0
+  hotreloader: ^4.3.0
 
 dev_dependencies:
   lints: ^5.0.0
