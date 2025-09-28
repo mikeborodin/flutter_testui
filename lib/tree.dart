@@ -37,7 +37,7 @@ class _TreeState extends State<Tree> {
             component.controller.scrollToStart();
           }
           if (event.character == 'G') {
-            position = component.data.expandedHeight() - 2;
+            position = component.data.height(expandedOnly: true) - 2;
             component.controller.scrollToEnd();
           }
           if (event.character == 'i') {
@@ -81,7 +81,7 @@ class _TreeState extends State<Tree> {
               [
                 'ScrollController offset: ${component.controller.offset.toString()}',
                 'Position: $position',
-                'Tree Height: ${component.data.expandedHeight()}',
+                'Tree Height: ${component.data.height(expandedOnly: true)}',
                 selectedData?.children.length,
                 selectedData?.expanded,
               ].join(' '),
@@ -151,10 +151,12 @@ class TreeNode {
   final List<TreeNode> children;
   bool expanded;
 
-  int expandedHeight() {
+  int height({required bool expandedOnly}) {
     if (children.isEmpty) return 1;
 
-    return 1 + children.map((c) => c.expandedHeight()).reduce((a, b) => a + b);
+    if (!expanded && expandedOnly) return 1;
+
+    return 1 + children.map((c) => c.height(expandedOnly: expandedOnly)).reduce((a, b) => a + b);
   }
 
   TreeNode({required this.child, required this.children, this.expanded = true});
