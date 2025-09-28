@@ -147,26 +147,6 @@ class _AppState extends State<App> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // SizedBox(
-                //   width: detailsVisible ? 50.0 : width.toDouble(),
-                //   child: SingleChildScrollView(
-                //     controller: scrollController,
-                //     child: Column(
-                //       crossAxisAlignment: CrossAxisAlignment.stretch,
-                //       children: [
-                //         for (int i = 0; i < state.testsList.length; i++)
-                //           Container(
-                //             color: i == position ? Colors.grey : null,
-                //             child: Text(
-                //               ' ${icon(state.testsList[i])} ${state.testsList[i].name}',
-                //               maxLines: 1,
-                //               style: TextStyle(color: color(state.testsList[i])),
-                //             ),
-                //           ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 Expanded(
                   child: testTreeState != null
                       ? Container(
@@ -178,6 +158,7 @@ class _AppState extends State<App> {
                             onSelected: (v) {
                               setState(() {
                                 selectedNode = v;
+                                detailsVisible = true;
                               });
                             },
                           ),
