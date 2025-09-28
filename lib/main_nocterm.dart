@@ -8,9 +8,14 @@ import 'package:nocterm/nocterm.dart';
 import 'package:testui3/app_state.dart';
 import 'package:testui3/tests/test_event_mapper.dart';
 import 'package:testui3/tests/test_runner.dart';
+import 'package:testui3/tests/test_state.dart';
+import 'package:testui3/tree.dart';
+import 'package:testui3/ui/icons.dart';
 
 void main(List<String> args) async {
-  final reloader = await HotReloader.create();
+  final HotReloader? reloader;
+
+  reloader = await HotReloader.create();
 
   final parser = ArgParser()..addOption('command', abbr: 'c', defaultsTo: 'dart test -r json');
   final argResults = parser.parse(args);
@@ -36,40 +41,44 @@ class _AppState extends State<App> {
   StreamSubscription<dynamic>? sub;
 
   int position = 0;
-  final List<String> screen = [];
   final scrollController = ScrollController();
+  bool detailsVisible = true;
+
+  TreeNode? testTreeState;
+  TreeNode? selectedNode;
 
   @override
   void initState() {
-    state.tests.clear();
-
     final eventProcessor = TestEventMapper(state);
 
-    final timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        screen.add('hello ${timer.tick}');
-      });
+    runner.runAll();
+    setState(() {
+      state.statusLine = 'starting';
     });
 
-    // sub = runner.stream.listen((event) {
-    //   setState(() {
-    //     state.statusLine = event.toString();
-    //     eventProcessor.process(event);
-    //   });
-    // });
-    // runner.runAll();
+    sub = runner.stream.listen((event) {
+      setState(() {
+        state.statusLine = event.toString();
+        eventProcessor.process(event);
+
+        testTreeState = state.tree != null
+            ? buildTree(state.tree!)
+            : TreeNode(child: Text('Test tree loading...'), children: []);
+      });
+    });
 
     super.initState();
   }
 
   @override
   void dispose() {
+    scrollController.dispose();
     sub?.cancel();
     super.dispose();
   }
 
   void _handleKeyEvent(KeyboardEvent event) {
-    final height = Console.getWindowHeight();
+    // final height = Console.getWindowHeight();
     setState(() {
       if (event.character == 'q') {
         stdout.write('${ConsoleStrings.eraseScreen}${ConsoleStrings.cursorToHome}');
@@ -79,27 +88,30 @@ class _AppState extends State<App> {
       if (event.character == 'r') {
         runner.runAll();
       }
-
-      if (event.character == 'u') {
-        if (position > 0) {
-          position--;
-
-          if (position == scrollController.offset - 1) {
-            scrollController.scrollUp();
-          }
-        }
+      if (event.character == 'p') {
+        detailsVisible = !detailsVisible;
       }
 
-      if (event.character == 'e') {
-        if (position + 1 < screen.length) {
-          position++;
-
-          if (position >= height - 1) {
-            scrollController.scrollDown();
-          }
-        }
-      }
-
+      // if (event.character == 'u') {
+      //   if (position > 0) {
+      //     position--;
+      //
+      //     if (position == scrollController.offset - 1) {
+      //       scrollController.scrollUp();
+      //     }
+      //   }
+      // }
+      //
+      // if (event.character == 'e') {
+      //   if (position + 1 < state.testsList.length) {
+      //     position++;
+      //
+      //     if (position >= height - 1) {
+      //       scrollController.scrollDown();
+      //     }
+      //   }
+      // }
+      //
       if (event.logicalKey == LogicalKey.escape || event.matches(LogicalKey.keyQ)) {
         exit(0);
       }
@@ -108,12 +120,24 @@ class _AppState extends State<App> {
 
   @override
   Component build(BuildContext context) {
-    final height = Console.getWindowHeight();
-
+    // final width = Console.getWindowWidth();
     return Focusable(
       focused: true,
       onKeyEvent: (event) {
-        _handleKeyEvent(event);
+        setState(() {
+          if (event.character == 'q') {
+            stdout.write('${ConsoleStrings.eraseScreen}${ConsoleStrings.cursorToHome}');
+            exit(0);
+          }
+
+          if (event.character == 'r') {
+            runner.runAll();
+          }
+          if (event.character == 'p') {
+            detailsVisible = !detailsVisible;
+          }
+        });
+
         return true;
       },
       child: Column(
@@ -122,38 +146,90 @@ class _AppState extends State<App> {
           Expanded(
             child: Row(
               children: [
-                SizedBox(
-                  width: 30,
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        for (int i = 0; i < screen.length; i++)
-                          Container(
-                            color: i == position ? Colors.blue : null,
-                            child: Text(' ${screen[i]}', style: TextStyle()),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   width: detailsVisible ? 50.0 : width.toDouble(),
+                //   child: SingleChildScrollView(
+                //     controller: scrollController,
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.stretch,
+                //       children: [
+                //         for (int i = 0; i < state.testsList.length; i++)
+                //           Container(
+                //             color: i == position ? Colors.grey : null,
+                //             child: Text(
+                //               ' ${icon(state.testsList[i])} ${state.testsList[i].name}',
+                //               maxLines: 1,
+                //               style: TextStyle(color: color(state.testsList[i])),
+                //             ),
+                //           ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(border: BoxBorder.all(color: Colors.blue)),
-                    padding: EdgeInsets.all(2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [MarkdownText('')],
-                    ),
-                  ),
+                  child: testTreeState != null
+                      ? Container(
+                          color: Colors.black,
+                          padding: EdgeInsets.all(2),
+                          child: Tree(
+                            controller: scrollController,
+                            data: testTreeState!,
+                            onSelected: (v) {
+                              setState(() {
+                                selectedNode = v;
+                              });
+                            },
+                          ),
+                        )
+                      : Text('loading...'),
                 ),
+                // if (detailsVisible) VerticalDivider(),
+                // if (detailsVisible && selectedNode != null)
+                //   Expanded(
+                //     child: Container(
+                //       color: Colors.black,
+                //       padding: EdgeInsets.all(2),
+                //       child: Text('some details'),
+                //     ),
+                //   ),
               ],
             ),
           ),
           Container(color: Colors.black, child: Text(state.statusLine)),
         ],
       ),
+    );
+  }
+
+  TreeNode buildTree(TestTreeData root) {
+    String icon(TestState testState) => testState.result == 'success'
+        ? Icons.check
+        : testState.result == 'running'
+        ? Icons.inProgress
+        : Icons.error;
+
+    Color? color(TestState testState) => testState.result == 'success'
+        ? Colors.green
+        : testState.result == 'running'
+        ? null
+        : Colors.red;
+
+    String name = '';
+    if (root.state?.name != null) {
+      name = ' ${icon(root.state!)} ${root.state!.name}';
+    } else if (root.testFile != null) {
+      name = root.testFile!;
+    }
+
+    return TreeNode(
+      child: name.isNotEmpty
+          ? Text(
+              name,
+              maxLines: 1,
+              style: TextStyle(color: root.state != null ? color(root.state!) : null),
+            )
+          : Divider(),
+      children: [for (final child in root.children) buildTree(child)],
     );
   }
 }

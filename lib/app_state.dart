@@ -5,7 +5,7 @@ class AppState {
   int index = 0;
   String statusLine = '';
 
-  List<TestState> testsList() {
+  List<TestState> get testsList {
     return tests.values.expand((file) {
       return file.values;
     }).toList();
@@ -17,4 +17,15 @@ class AppState {
     }
     tests[filePath]![testName] = testState;
   }
+
+  TestTreeData? tree;
+}
+
+class TestTreeData {
+  final String? testFile;
+  final String? testName;
+  final TestState? state;
+  final List<TestTreeData> children;
+
+  TestTreeData({this.testFile, this.state, this.testName, this.children = const []});
 }

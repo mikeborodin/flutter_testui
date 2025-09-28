@@ -11,6 +11,44 @@ class TestEventMapper {
   TestEventMapper(this.state);
 
   void process(dynamic event) {
+    _fillStateMaps(event);
+
+    state.tree = TestTreeData(testFile: null, children: []);
+
+    for (final entry in state.tests.entries) {
+      state.tree?.children.add(
+        TestTreeData(
+          testFile: entry.key,
+          children:
+              state.tests[entry.key]?.entries
+                  .map((entry) {
+                    return TestTreeData(
+                      testName: entry.key,
+                      state: entry.value,
+                      children: [
+                        TestTreeData(
+                          testName: '',
+                          state: TestState(name: 'level 1', result: 'success', skipped: false),
+                          children: [
+                            TestTreeData(
+                              testName: '',
+                              state: TestState(name: 'level 2', result: 'success', skipped: false),
+                              children: [],
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  })
+                  .cast<TestTreeData>()
+                  .toList() ??
+              [],
+        ),
+      );
+    }
+  }
+
+  void _fillStateMaps(event) {
     if (event is TestStartEvent) {
       testIdToTestName[event.id] = event.name;
       testIdToSuiteId[event.id] = event.suiteID;
