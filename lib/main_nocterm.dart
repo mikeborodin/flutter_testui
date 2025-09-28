@@ -145,6 +145,7 @@ class _AppState extends State<App> {
         children: [
           Expanded(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // SizedBox(
                 //   width: detailsVisible ? 50.0 : width.toDouble(),
@@ -183,15 +184,14 @@ class _AppState extends State<App> {
                         )
                       : Text('loading...'),
                 ),
-                // if (detailsVisible) VerticalDivider(),
-                // if (detailsVisible && selectedNode != null)
-                //   Expanded(
-                //     child: Container(
-                //       color: Colors.black,
-                //       padding: EdgeInsets.all(2),
-                //       child: Text('some details'),
-                //     ),
-                //   ),
+                if (detailsVisible) VerticalDivider(),
+                if (detailsVisible)
+                  Container(
+                    width: 60,
+                    color: Colors.black,
+                    padding: EdgeInsets.all(2),
+                    child: Text(selectedNode?.children.length.toString() ?? 'nothing'),
+                  ),
               ],
             ),
           ),

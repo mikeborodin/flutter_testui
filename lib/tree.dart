@@ -113,21 +113,34 @@ class _TreeState extends State<Tree> {
       return result;
     }
 
+    final isSelected = selected();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          padding: EdgeInsets.only(left: depth.toDouble()),
-          color: selected() ? Color.fromRGB(22, 52, 42) : null,
-          child: Row(
-            children: [
-              if (data.children.isNotEmpty)
-                Text(data.expanded ? '  ' : '  ', style: TextStyle(color: Colors.cyan))
-              else
-                Text('    '),
-              Expanded(child: data.child),
-              Text('expanded: ${data.expanded}'),
-            ],
+        Focusable(
+          focused: isSelected,
+          onKeyEvent: (event) {
+            if (event.logicalKey == LogicalKey.enter) {
+              component.onSelected?.call(data);
+              return true;
+            }
+
+            return false;
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: depth.toDouble()),
+            color: isSelected ? Color.fromRGB(22, 52, 42) : null,
+            child: Row(
+              children: [
+                if (data.children.isNotEmpty)
+                  Text(data.expanded ? '  ' : '  ', style: TextStyle(color: Colors.cyan))
+                else
+                  Text('    '),
+                Expanded(child: data.child),
+                Text('expanded: ${data.expanded}'),
+              ],
+            ),
           ),
         ),
         if (data.expanded)
