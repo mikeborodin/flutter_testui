@@ -138,7 +138,6 @@ class _TreeState extends State<Tree> {
                 else
                   Text('    '),
                 Expanded(child: data.child),
-                Text('expanded: ${data.expanded}'),
               ],
             ),
           ),

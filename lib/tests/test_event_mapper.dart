@@ -22,21 +22,7 @@ class TestEventMapper {
           children:
               state.tests[entry.key]?.entries
                   .map((entry) {
-                    return TestTreeData(
-                      testName: entry.key,
-                      state: entry.value,
-                      children: [
-                        TestTreeData(
-                          testName: '',
-                          state: TestState(name: 'level 1', result: 'success', skipped: false),
-                          children: [
-                            TestTreeData(
-                              testName: '',
-                              state: TestState(name: 'level 2', result: 'success', skipped: false),
-                              children: [],
-                            ),
-                          ],
-                        ),
+                    return TestTreeData(testName: entry.key, state: entry.value, children: [
                       ],
                     );
                   })
@@ -56,7 +42,7 @@ class TestEventMapper {
       state.updateTestState(
         suiteIdToFilePath[event.suiteID] ?? 'unknown',
         event.name,
-        TestState(name: event.name, skipped: false, result: 'running'),
+        TestState(name: event.name, skipped: false, result: TestStatus.running,result0: ''),
       );
     } else if (event is TestDoneEvent) {
       final testName = testIdToTestName[event.testID] ?? 'unknown';
@@ -64,7 +50,12 @@ class TestEventMapper {
       state.updateTestState(
         suiteIdToFilePath[suiteId] ?? 'unknown',
         testName,
-        TestState(name: testName, skipped: event.skipped, result: event.result),
+        TestState(
+          result0: 'passed',
+          name: testName,
+          skipped: event.skipped,
+          result: event.result == 'success' ? TestStatus.passed : TestStatus.failed,
+        ),
       );
     } else if (event is SuiteEvent) {
       suiteIdToFilePath[event.id] = event.path;

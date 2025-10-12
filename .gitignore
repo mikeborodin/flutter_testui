@@ -3,4 +3,5 @@
 .dart_tool/
 .aider*
 
-log.txt
+tt
+./log.txt

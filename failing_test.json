@@ -1,0 +1,20 @@
+{"protocolVersion":"0.1.1","runnerVersion":"1.26.2","pid":82921,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"test/tests/failing_test.dart"},"type":"suite","time":0}
+
+
+{"test":{"id":1,"name":"loading test/tests/failing_test.dart","suiteID":0,"groupIDs":[],
+  "metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":3}
+
+{"count":1,"time":6,"type":"allSuites"}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":205}
+
+{"group": {"id":2,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},
+  "testCount":2,"line":null,"column":null,"url":null},
+  "type":"group","time":207}
+
+{"test":{"id":3,"name":"should fail","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":4,"column":3,"url":"file:///Users/mike/personal_projects/testui3/test/tests/failing_test.dart"},"type":"testStart","time":207}
+{"testID":3,"error":"Expected: <false>\n  Actual: <true>\n","stackTrace":"package:matcher                   expect\ntest/tests/failing_test.dart 5:5  main.<fn>\n","isFailure":true,"type":"error","time":222}
+{"testID":3,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":222}
+{"test":{"id":4,"name":"ok test","suiteID":0,"groupIDs":[2],"metadata":{"skip":false,"skipReason":null},"line":8,"column":3,"url":"file:///Users/mike/personal_projects/testui3/test/tests/failing_test.dart"},"type":"testStart","time":222}
+{"testID":4,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":223}
+{"success":false,"type":"done","time":227}

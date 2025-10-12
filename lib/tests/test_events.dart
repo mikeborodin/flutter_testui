@@ -1,3 +1,5 @@
+enum TestStatus{passed, failed, running}
+
 class StartEvent {
   final String protocolVersion;
   final String? runnerVersion;

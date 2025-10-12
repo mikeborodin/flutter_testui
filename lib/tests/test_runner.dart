@@ -26,7 +26,7 @@ class TestRunner {
       try {
         final event = parser.parseEvent(line);
         _controller.add(event);
-      } catch (err, trace) {
+      } catch (err, _) {
         // stdout.write('Error parsing event: $err');
         // stdout.write(trace);
         // exit(2);

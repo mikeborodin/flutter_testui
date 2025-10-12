@@ -6,6 +6,13 @@ The main goal is to:
 * allow easily (re)running tests with keyboard-driven input
 * when tests fail because of mismatching excpect() assertions visually highlight the mismatching values
 
+# Features
+ - [x] Jump to top/bottom
+ - [ ] See failure details
+ - [ ] Jump next failure
+ - [ ] Fuzzy search title
+ - [ ] Show only failures
+
 # Technical concept
 * It's written in TUI style (like for example lazygit or top).
 * the program starts sub-process like `flutter test` and controls input/output for it
