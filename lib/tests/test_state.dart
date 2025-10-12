@@ -1,15 +1,15 @@
 import 'package:testui3/tests/test_events.dart';
 
-class TestState {
+class TestDetails {
   final String name;
-  final String result0;
-  final TestStatus result;
+  final TestResult? result;
+  final bool isRunning;
   final bool skipped;
 
-  TestState({
+  TestDetails({
     required this.name,
-    required this.result,
     required this.skipped,
-    required this.result0,
+    required this.result,
+    this.isRunning = false,
   });
 }

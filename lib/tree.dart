@@ -74,7 +74,6 @@ class _TreeState extends State<Tree> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            color: Color.fromRGB(22, 52, 12),
             child: Text(
               [
                 'ScrollController offset: ${component.controller.offset.toString()}',
@@ -88,10 +87,7 @@ class _TreeState extends State<Tree> {
           Expanded(
             child: SingleChildScrollView(
               controller: component.controller,
-              child: Container(
-                color: Colors.black,
-                child: buildChildren(component.data, 0, 0, 0, NodeId(line: 0)),
-              ),
+              child: Container(child: buildChildren(component.data, 0, 0, 0, NodeId(line: 0))),
             ),
           ),
         ],

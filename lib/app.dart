@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:consola/consola.dart';
-import 'package:hotreloader/hotreloader.dart';
 import 'package:nocterm/nocterm.dart';
 import 'package:testui3/app_state.dart';
 import 'package:testui3/tests/test_event_processor.dart';
@@ -82,6 +81,11 @@ class _TestUiAppState extends State<TestUiApp> {
           if (event.character == 'p') {
             detailsVisible = !detailsVisible;
           }
+
+          if (event.matches(LogicalKey.escape)) {
+            detailsVisible = false;
+            logsVisible = false;
+          }
           if (event.character == 'l') {
             logsVisible = !logsVisible;
           }
@@ -103,7 +107,6 @@ class _TestUiAppState extends State<TestUiApp> {
                           children: [
                             Expanded(
                               child: Container(
-                                color: Colors.black,
                                 padding: EdgeInsets.all(2),
                                 child: Tree(
                                   controller: scrollController,
@@ -119,7 +122,7 @@ class _TestUiAppState extends State<TestUiApp> {
                             ),
                             if (logsVisible)
                               SizedBox(
-                                height: 10,
+                                height: 20,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +139,6 @@ class _TestUiAppState extends State<TestUiApp> {
                 if (detailsVisible && testTreeState != null)
                   Container(
                     width: 60,
-                    color: Colors.black,
                     padding: EdgeInsets.all(2),
                     child: Text(selectedNode?.children.length.toString() ?? 'nothing'),
                   ),
@@ -150,26 +152,28 @@ class _TestUiAppState extends State<TestUiApp> {
   }
 
   TreeNode buildTree(TestTreeData root) {
-    String icon(TestState testState) => testState.result == TestStatus.passed
-        ? Icons.check
-        : testState.result == TestStatus.running
-        ? Icons.inProgress
-        : Icons.error;
+    String icon(TestDetails testState) {
+      if (testState.isRunning) return Icons.inProgress;
+      if (testState.result == TestResult.passed) return Icons.check;
+      if (testState.result == TestResult.failed) return Icons.error;
 
-    Color? color(TestState testState) => testState.result == TestStatus.passed
-        ? Colors.green
-        : testState.result == TestStatus.running
-        ? null
-        : Colors.red;
+      return '';
+    }
 
-    String name = ' ${root.state != null ? icon(root.state!) : ''} ${root.state?.name}';
+    Color? color(TestDetails testState) {
+      if (testState.result == TestResult.passed) return Colors.green;
+      if (testState.result == TestResult.failed) return Colors.red;
+      return null;
+    }
+
+    String name = ' ${root.state != null ? icon(root.state) : ''} ${root.state.name}';
 
     return TreeNode(
       child: name.isNotEmpty
           ? Text(
               name,
               maxLines: 1,
-              style: TextStyle(color: root.state != null ? color(root.state!) : null),
+              style: TextStyle(color: root.state != null ? color(root.state) : null),
             )
           : Divider(),
       children: [for (final child in root.children) buildTree(child)],
