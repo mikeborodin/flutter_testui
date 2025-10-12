@@ -1,4 +1,4 @@
-enum TestResult { passed, failed }
+enum TestResult { passed, failed, skipped }
 
 class StartEvent {
   final String protocolVersion;

@@ -3,10 +3,17 @@ import 'package:nocterm/nocterm.dart';
 
 class Tree extends StatefulComponent {
   final TreeNode data;
+  final bool showHeader;
   final ScrollController controller;
   final Function(TreeNode node)? onSelected;
 
-  Tree({super.key, required this.data, required this.controller, this.onSelected});
+  Tree({
+    super.key,
+    required this.data,
+    required this.controller,
+    this.onSelected,
+    this.showHeader = false,
+  });
 
   @override
   State<StatefulComponent> createState() {
@@ -73,17 +80,18 @@ class _TreeState extends State<Tree> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            child: Text(
-              [
-                'ScrollController offset: ${component.controller.offset.toString()}',
-                'Position: $position',
-                'Tree Height: ${component.data.height(expandedOnly: true)}',
-                selectedData?.children.length,
-                selectedData?.expanded,
-              ].join(' '),
+          if (component.showHeader)
+            Container(
+              child: Text(
+                [
+                  'ScrollController offset: ${component.controller.offset.toString()}',
+                  'Position: $position',
+                  'Tree Height: ${component.data.height(expandedOnly: true)}',
+                  selectedData?.children.length,
+                  selectedData?.expanded,
+                ].join(' '),
+              ),
             ),
-          ),
           Expanded(
             child: SingleChildScrollView(
               controller: component.controller,

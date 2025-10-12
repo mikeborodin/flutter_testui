@@ -97,50 +97,58 @@ class _TestUiAppState extends State<TestUiApp> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: Stack(
+              fit: StackFit.expand,
               children: [
-                Expanded(
-                  child: testTreeState != null
-                      ? Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(2),
-                                child: Tree(
-                                  controller: scrollController,
-                                  data: testTreeState!,
-                                  onSelected: (v) {
-                                    setState(() {
-                                      selectedNode = v;
-                                      detailsVisible = true;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            if (logsVisible)
-                              SizedBox(
-                                height: 20,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [for (final log in state.logs) Text(log)],
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: testTreeState != null
+                          ? Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(2),
+                                    child: Tree(
+                                      controller: scrollController,
+                                      data: testTreeState!,
+                                      onSelected: (v) {
+                                        setState(() {
+                                          selectedNode = v;
+                                          detailsVisible = true;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                          ],
-                        )
-                      : Text('loading...'),
+                              ],
+                            )
+                          : Text('loading...'),
+                    ),
+                    if (detailsVisible && testTreeState != null) VerticalDivider(),
+                    if (detailsVisible && testTreeState != null)
+                      Container(
+                        width: 60,
+                        padding: EdgeInsets.all(2),
+                        child: Text(selectedNode?.children.length.toString() ?? 'nothing'),
+                      ),
+                  ],
                 ),
-                if (detailsVisible && testTreeState != null) VerticalDivider(),
-                if (detailsVisible && testTreeState != null)
+                if (logsVisible)
                   Container(
-                    width: 60,
-                    padding: EdgeInsets.all(2),
-                    child: Text(selectedNode?.children.length.toString() ?? 'nothing'),
+                    color: Color.defaultColor,
+                    child: SizedBox(
+                      height: 20,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [for (final log in state.logs) Text(log)],
+                        ),
+                      ),
+                    ),
                   ),
               ],
             ),
