@@ -10,6 +10,7 @@ class TestEventProcessor {
     if (event is StartEvent) {
       _state.statusLine =
           'start event; runner ${event.runnerVersion} protocol: ${event.protocolVersion}';
+      _state.tree = TestTreeData();
     }
     if (event is GroupEvent) {
       _state.statusLine = 'group event;';

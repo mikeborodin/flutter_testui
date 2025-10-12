@@ -1,4 +1,3 @@
-
 import 'package:args/args.dart';
 import 'package:hotreloader/hotreloader.dart';
 import 'package:nocterm/nocterm.dart';

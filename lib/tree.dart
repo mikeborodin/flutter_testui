@@ -25,7 +25,6 @@ class _TreeState extends State<Tree> {
 
   @override
   Component build(BuildContext context) {
-    // final children = component.data.children.map((c) => c.child).toList();
     final height = Console.getWindowHeight();
 
     return Focusable(
@@ -60,13 +59,12 @@ class _TreeState extends State<Tree> {
           }
 
           if (event.character == 'e') {
-            // if (position + 1 < component.data.children.length) {
-            // if (position + 1 < height) {
-            position++;
-            if (position >= height - 10) {
-              component.controller.scrollDown();
+            if (position + 1 < component.data.children.length && position + 1 < height) {
+              position++;
+              if (position >= height - 10) {
+                component.controller.scrollDown();
+              }
             }
-            // }
           }
         });
 
