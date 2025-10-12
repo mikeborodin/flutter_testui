@@ -11,17 +11,17 @@ List<String> removeCwdPrefix(List<String> input, String? cwd) {
   }).toList();
 }
 
-List<FileSystemEntity> fromFullPaths(List<String> fullPaths) {
+List<FileSystemEntity> convertPathsToFsTree(Map<int, String> fullPaths) {
   final Map<String, FileSystemEntity> rootEntities = {};
 
-  for (var path in fullPaths) {
-    final parts = path.split('/');
+  for (var entry in fullPaths.entries) {
+    final parts = entry.value.split('/');
     Map<String, FileSystemEntity> currentLevel = rootEntities;
 
     for (var i = 0; i < parts.length; i++) {
       final part = parts[i];
       if (!currentLevel.containsKey(part)) {
-        currentLevel[part] = FileSystemEntity(name: part, children: []);
+        currentLevel[part] = FileSystemEntity(name: part, fileId: entry.key, children: []);
       }
 
       if (i < parts.length - 1) {

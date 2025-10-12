@@ -1,19 +1,19 @@
 import 'tests/test_state.dart';
 
 class AppState {
-  final Map<String, Map<String, TestDetails>> tests = {};
+  final Map<String, Map<String, NodeState>> tests = {};
   int index = 0;
   String statusLine = '';
   Duration time = Duration.zero;
   final List<String> logs = [];
 
-  List<TestDetails> get testsList {
+  List<NodeState> get testsList {
     return tests.values.expand((file) {
       return file.values;
     }).toList();
   }
 
-  void updateTestState(String filePath, String testName, TestDetails testState) {
+  void updateTestState(String filePath, String testName, NodeState testState) {
     if (!tests.containsKey(filePath)) {
       tests[filePath] = {};
     }
@@ -26,7 +26,7 @@ class AppState {
 enum NodeType { root, file, group, test }
 
 class TestTreeData {
-  final TestDetails state;
+  final NodeState state;
   final NodeType type;
   final List<TestTreeData> children;
 

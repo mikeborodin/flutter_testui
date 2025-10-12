@@ -22,13 +22,13 @@ class UnitTestState {
 
 class FileSystemEntity {
   final String name;
+  final int? fileId;
 
   // if set this is is a folder, otherwise a file.
   List<FileSystemEntity> children;
 
-  FileSystemEntity({required this.name, required this.children});
+  FileSystemEntity({required this.name, this.fileId, required this.children});
 }
-
 
 class TestEventProcessor {
   final AppState state;
@@ -48,6 +48,15 @@ class TestEventProcessor {
     history.add(event);
   }
 
+  
+
+  /// Builds a tree based on current state of `files`, `groups`, `testDetails`
+  /// Uses `convertPathsToFsTree` function to build file tree of parent folders
+  /// Should update parent folders' state fields `isRunning` and `result` based on children: example shuld set result of a folder in case all children are green   
+  TestTreeData buildTree(){
+
+  }
+
   void _set(event) {
     if (event is StartEvent) {
       history.clear();
@@ -59,7 +68,7 @@ class TestEventProcessor {
 
       state.tree = TestTreeData(
         type: NodeType.root,
-        state: TestDetails(name: 'root', isRunning: true, result: null, skipped: false),
+        state: NodeState(name: 'root', isRunning: true, result: null, skipped: false),
         children: [],
       );
     }

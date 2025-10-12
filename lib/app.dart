@@ -160,7 +160,7 @@ class _TestUiAppState extends State<TestUiApp> {
   }
 
   TreeNode buildTree(TestTreeData root) {
-    String icon(TestDetails testState) {
+    String icon(NodeState testState) {
       if (testState.isRunning) return Icons.inProgress;
       if (testState.result == TestResult.passed) return Icons.check;
       if (testState.result == TestResult.failed) return Icons.error;
@@ -168,7 +168,7 @@ class _TestUiAppState extends State<TestUiApp> {
       return '';
     }
 
-    Color? color(TestDetails testState) {
+    Color? color(NodeState testState) {
       if (testState.result == TestResult.passed) return Colors.green;
       if (testState.result == TestResult.failed) return Colors.red;
       return null;

@@ -1,12 +1,12 @@
 import 'package:testui3/tests/test_events.dart';
 
-class TestDetails {
+class NodeState {
   final String name;
   final TestResult? result;
   final bool isRunning;
   final bool skipped;
 
-  TestDetails({
+  NodeState({
     required this.name,
     required this.skipped,
     required this.result,
