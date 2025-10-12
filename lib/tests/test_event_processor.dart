@@ -2,6 +2,8 @@ import 'package:testui3/app_state.dart';
 import 'package:testui3/tests/test_events.dart';
 import 'package:testui3/tests/test_state.dart';
 
+import 'utils.dart';
+
 class Group {
   final int? parentGroup;
   final int fileId;
@@ -44,17 +46,54 @@ class TestEventProcessor {
   void process(dynamic event) {
     _set(event);
 
-    // state.logs.add('event ${event.type} - ${event.toJson()}');
+    state.logs.add('event ${event.type} - ${event.toJson()}');
+    state.tree = buildTree();
     history.add(event);
   }
 
-  
+  TestTreeData buildTree() {
+    final root = TestTreeData(
+      type: NodeType.root,
+      state: NodeState(name: 'root', isRunning: true, result: null, skipped: false),
+      children: [],
+    );
 
-  /// Builds a tree based on current state of `files`, `groups`, `testDetails`
-  /// Uses `convertPathsToFsTree` function to build file tree of parent folders
-  /// Should update parent folders' state fields `isRunning` and `result` based on children: example shuld set result of a folder in case all children are green   
-  TestTreeData buildTree(){
+    final fileEntities = convertPathsToFsTree(files);
 
+    for (final fileEntity in fileEntities) {
+      final fileNode = TestTreeData(
+        type: NodeType.file,
+        state: NodeState(name: fileEntity.name, isRunning: false, result: null, skipped: false),
+        children: [],
+      );
+
+      for (var test in testDetails.values.where((t) => t.fileId == fileEntity.fileId && !t.hidden)) {
+        final testNode = TestTreeData(
+          type: NodeType.test,
+          state: NodeState(name: test.name, isRunning: false, result: test.result, skipped: false),
+          children: [],
+        );
+        fileNode.children.add(testNode);
+      }
+
+      for (var group in groups.values.where((g) => g.fileId == fileEntity.fileId)) {
+        final groupNode = TestTreeData(
+          type: NodeType.group,
+          state: NodeState(
+            name: 'Group ${group.fileId}',
+            isRunning: false,
+            result: null,
+            skipped: false,
+          ),
+          children: [],
+        );
+        fileNode.children.add(groupNode);
+      }
+
+      root.children.add(fileNode);
+    }
+
+    return root;
   }
 
   void _set(event) {

@@ -2,9 +2,9 @@ import 'package:testui3/tests/test_events.dart';
 
 class NodeState {
   final String name;
-  final TestResult? result;
-  final bool isRunning;
-  final bool skipped;
+  TestResult? result;
+  bool isRunning;
+  bool skipped;
 
   NodeState({
     required this.name,
