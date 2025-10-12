@@ -4,6 +4,8 @@ class AppState {
   final Map<String, Map<String, TestState>> tests = {};
   int index = 0;
   String statusLine = '';
+  Duration time = Duration.zero;
+  final List<String> logs = [];
 
   List<TestState> get testsList {
     return tests.values.expand((file) {

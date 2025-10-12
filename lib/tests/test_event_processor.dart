@@ -2,33 +2,48 @@ import 'package:testui3/app_state.dart';
 import 'package:testui3/tests/test_events.dart';
 
 class TestEventProcessor {
-  final AppState _state;
+  final AppState state;
 
-  TestEventProcessor({required AppState state}) : _state = state;
+  TestEventProcessor({required this.state});
+
+  final List<dynamic> history = [];
 
   void process(dynamic event) {
     if (event is StartEvent) {
-      _state.statusLine =
+      history.clear();
+      state.logs.clear();
+
+      state.statusLine =
           'start event; runner ${event.runnerVersion} protocol: ${event.protocolVersion}';
-      _state.tree = TestTreeData();
+      state.tree = TestTreeData();
     }
     if (event is GroupEvent) {
-      _state.statusLine = 'group event;';
+      state.statusLine = 'group event;';
     }
     if (event is TestStartEvent) {
-      _state.statusLine = 'test start';
+      state.statusLine = 'test start';
     }
     if (event is TestDoneEvent) {
-      _state.statusLine = 'test done';
+      state.statusLine = 'test done';
     }
     if (event is SuiteEvent) {
-      _state.statusLine = 'suite event ${event.path}';
+      state.statusLine = 'suite event ${event.path}';
     }
     if (event is AllSuitesEvent) {
-      _state.statusLine = 'all suites';
+      state.statusLine = 'all suites';
     }
     if (event is DoneEvent) {
-      _state.statusLine = 'done! ${event.time} ms';
+      state.statusLine = 'done! ${event.time} ms';
     }
+
+
+    try {
+      state.time = Duration(milliseconds: event.time);
+    } catch (e) {
+      state.logs.add('can not get .time of $event');
+    }
+
+    state.logs.add('event $event');
+    history.add(event);
   }
 }

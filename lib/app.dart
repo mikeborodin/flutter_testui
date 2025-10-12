@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:consola/consola.dart';
+import 'package:hotreloader/hotreloader.dart';
 import 'package:nocterm/nocterm.dart';
 import 'package:testui3/app_state.dart';
 import 'package:testui3/tests/test_event_processor.dart';
@@ -29,6 +30,7 @@ class _TestUiAppState extends State<TestUiApp> {
   int position = 0;
   final scrollController = ScrollController();
   bool detailsVisible = false;
+  bool logsVisible = false;
 
   TreeNode? testTreeState;
   TreeNode? selectedNode;
@@ -80,6 +82,9 @@ class _TestUiAppState extends State<TestUiApp> {
           if (event.character == 'p') {
             detailsVisible = !detailsVisible;
           }
+          if (event.character == 'l') {
+            logsVisible = !logsVisible;
+          }
         });
 
         return true;
@@ -93,19 +98,37 @@ class _TestUiAppState extends State<TestUiApp> {
               children: [
                 Expanded(
                   child: testTreeState != null
-                      ? Container(
-                          color: Colors.black,
-                          padding: EdgeInsets.all(2),
-                          child: Tree(
-                            controller: scrollController,
-                            data: testTreeState!,
-                            onSelected: (v) {
-                              setState(() {
-                                selectedNode = v;
-                                detailsVisible = true;
-                              });
-                            },
-                          ),
+                      ? Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                color: Colors.black,
+                                padding: EdgeInsets.all(2),
+                                child: Tree(
+                                  controller: scrollController,
+                                  data: testTreeState!,
+                                  onSelected: (v) {
+                                    setState(() {
+                                      selectedNode = v;
+                                      detailsVisible = true;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            if (logsVisible)
+                              SizedBox(
+                                height: 10,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [for (final log in state.logs) Text(log)],
+                                  ),
+                                ),
+                              ),
+                          ],
                         )
                       : Text('loading...'),
                 ),
