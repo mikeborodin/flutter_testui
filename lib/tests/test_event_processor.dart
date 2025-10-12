@@ -51,6 +51,19 @@ class TestEventProcessor {
     history.add(event);
   }
 
+  /// Builds a tree based on current state of `files`, `groups`, `testDetails`
+  /// Uses `convertPathsToFsTree` function to build file tree of parent folders
+  /// * Should update parent folders' state fields `isRunning` and `result` based on children: example shuld set result of a folder in case all children are green
+  //  * Should also count for nested groups (test groups should be reflected properly in the tree)
+  /// * For unit tests within the same file that start with the same prefix it shuld also be relected as a node in the tree so that we avoid duplication when seeing the names
+  /// Resulting tree be structured like
+  /// Example hierarchy:
+  ///    - folder name
+  ///       - test file a
+  ///          - group name (e.g. Mapper)
+  ///             - mapper should
+  ///                - do validation
+  ///                - map entries x to y
   TestTreeData buildTree() {
     final root = TestTreeData(
       type: NodeType.root,
@@ -60,33 +73,40 @@ class TestEventProcessor {
 
     final fileEntities = convertPathsToFsTree(files);
 
-    for (final fileEntity in fileEntities) {
+    for (var fileEntity in fileEntities) {
       final fileNode = TestTreeData(
         type: NodeType.file,
         state: NodeState(name: fileEntity.name, isRunning: false, result: null, skipped: false),
         children: [],
       );
 
-      for (var test in testDetails.values.where((t) => t.fileId == fileEntity.fileId && !t.hidden)) {
-        final testNode = TestTreeData(
-          type: NodeType.test,
-          state: NodeState(name: test.name, isRunning: false, result: test.result, skipped: false),
-          children: [],
-        );
-        fileNode.children.add(testNode);
-      }
-
       for (var group in groups.values.where((g) => g.fileId == fileEntity.fileId)) {
         final groupNode = TestTreeData(
           type: NodeType.group,
           state: NodeState(
-            name: 'Group ${group.fileId}',
+            name: 'Group ${group.parentGroup}',
             isRunning: false,
             result: null,
             skipped: false,
           ),
           children: [],
         );
+
+        for (var test in testDetails.values.where((t) => t.fileId == fileEntity.fileId && !t.hidden)) {
+          final testNode = TestTreeData(
+            type: NodeType.test,
+            state: NodeState(
+              name: test.name,
+              isRunning: false,
+              result: test.result,
+              skipped: false,
+            ),
+            children: [],
+          );
+
+          groupNode.children.add(testNode);
+        }
+
         fileNode.children.add(groupNode);
       }
 

@@ -66,12 +66,12 @@ class _TreeState extends State<Tree> {
           }
 
           if (event.character == 'e') {
-            if (position + 1 < component.data.children.length && position + 1 < height) {
-              position++;
-              if (position >= height - 10) {
-                component.controller.scrollDown();
-              }
+            // if (position + 1 < component.data.children.length && position + 1 < height) {
+            position++;
+            if (position >= height - 10) {
+              component.controller.scrollDown();
             }
+            // }
           }
         });
 
