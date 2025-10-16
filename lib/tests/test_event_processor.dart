@@ -7,8 +7,9 @@ import 'utils.dart';
 class Group {
   final int? parentGroup;
   final int fileId;
+  final String name;
 
-  Group({required this.parentGroup, required this.fileId});
+  Group({required this.name, required this.parentGroup, required this.fileId});
 }
 
 class UnitTestState {
@@ -46,7 +47,9 @@ class TestEventProcessor {
   void process(dynamic event) {
     _set(event);
 
-    state.logs.add('event ${event.type} - ${event.toJson()}');
+    state.logs
+      ..clear()
+      ..addAll(files.values);
     state.tree = buildTree();
     history.add(event);
   }
@@ -67,7 +70,7 @@ class TestEventProcessor {
   TestTreeData buildTree() {
     final root = TestTreeData(
       type: NodeType.root,
-      state: NodeState(name: 'root', isRunning: true, result: null, skipped: false),
+      state: NodeState(name: 'tests', isRunning: true, result: null, skipped: false),
       children: [],
     );
 
@@ -77,38 +80,8 @@ class TestEventProcessor {
       final fileNode = TestTreeData(
         type: NodeType.file,
         state: NodeState(name: fileEntity.name, isRunning: false, result: null, skipped: false),
-        children: [],
+        children: _buildChildren(fileEntity),
       );
-
-      for (var group in groups.values.where((g) => g.fileId == fileEntity.fileId)) {
-        final groupNode = TestTreeData(
-          type: NodeType.group,
-          state: NodeState(
-            name: 'Group ${group.parentGroup}',
-            isRunning: false,
-            result: null,
-            skipped: false,
-          ),
-          children: [],
-        );
-
-        for (var test in testDetails.values.where((t) => t.fileId == fileEntity.fileId && !t.hidden)) {
-          final testNode = TestTreeData(
-            type: NodeType.test,
-            state: NodeState(
-              name: test.name,
-              isRunning: false,
-              result: test.result,
-              skipped: false,
-            ),
-            children: [],
-          );
-
-          groupNode.children.add(testNode);
-        }
-
-        fileNode.children.add(groupNode);
-      }
 
       root.children.add(fileNode);
     }
@@ -116,12 +89,40 @@ class TestEventProcessor {
     return root;
   }
 
+  List<TestTreeData> _buildChildren(FileSystemEntity fileEntity) {
+    final children = <TestTreeData>[];
+
+    for (final group in groups.values.where((g) => g.fileId == fileEntity.fileId)) {
+      final groupNode = TestTreeData(
+        type: NodeType.group,
+        state: NodeState(name: group.name, isRunning: false, result: null, skipped: false),
+        children: [],
+      );
+
+      for (var test in testDetails.values.where(
+        (t) => t.fileId == fileEntity.fileId && !t.hidden,
+      )) {
+        final testNode = TestTreeData(
+          type: NodeType.test,
+          state: NodeState(name: test.name, isRunning: false, result: test.result, skipped: false),
+          children: [],
+        );
+
+        if (group.name.isNotEmpty) {
+          groupNode.children.add(testNode);
+        } else {
+          children.add(testNode);
+        }
+      }
+
+      if (groupNode.children.isNotEmpty) children.add(groupNode);
+    }
+
+    return children;
+  }
+
   void _set(event) {
     if (event is StartEvent) {
-      history.clear();
-      state.logs.clear();
-      files.clear();
-
       state.statusLine =
           'start event; runner ${event.runnerVersion} protocol: ${event.protocolVersion}';
 
@@ -138,16 +139,21 @@ class TestEventProcessor {
     if (event is GroupEvent) {
       state.statusLine = 'group event;';
 
-      groups[event.id] = Group(parentGroup: event.parentID, fileId: event.suiteID);
+      groups[event.id] = Group(
+        name: event.name,
+        parentGroup: event.parentID,
+        fileId: event.suiteID,
+      );
     }
     if (event is TestStartEvent) {
-      state.statusLine = 'test start';
-
-      testDetails[event.id] = UnitTestState(
-        fileId: event.suiteID,
-        startedAt: event.time,
-        name: event.name,
-      );
+      if (!event.name.startsWith('loading ')) {
+        state.statusLine = 'test start';
+        testDetails[event.id] = UnitTestState(
+          fileId: event.suiteID,
+          startedAt: event.time,
+          name: event.name,
+        );
+      }
     }
     if (event is TestDoneEvent) {
       state.statusLine = 'test done';

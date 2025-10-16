@@ -1,0 +1,65 @@
+{"protocolVersion":"0.1.1","runnerVersion":"1.26.2","pid":4629,"type":"start","time":0}
+{"suite":{"id":0,"platform":"vm","path":"test/tests/test_event_parser_anothe_test.dart"},"type":"suite","time":0}
+{"test":{"id":1,"name":"loading test/tests/test_event_parser_anothe_test.dart","suiteID":0,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":0}
+{"suite":{"id":2,"platform":"vm","path":"test/tests/test_event_parser_anothe2_test.dart"},"type":"suite","time":4}
+{"test":{"id":3,"name":"loading test/tests/test_event_parser_anothe2_test.dart","suiteID":2,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":4}
+{"suite":{"id":4,"platform":"vm","path":"test/tests/failing_test.dart"},"type":"suite","time":4}
+{"test":{"id":5,"name":"loading test/tests/failing_test.dart","suiteID":4,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":4}
+{"suite":{"id":6,"platform":"vm","path":"test/tests/test_event_parser_test.dart"},"type":"suite","time":5}
+{"test":{"id":7,"name":"loading test/tests/test_event_parser_test.dart","suiteID":6,"groupIDs":[],"metadata":{"skip":false,"skipReason":null},"line":null,"column":null,"url":null},"type":"testStart","time":5}
+{"count":4,"time":5,"type":"allSuites"}
+{"testID":5,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":227}
+{"group":{"id":8,"suiteID":4,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":null,"column":null,"url":null},"type":"group","time":228}
+{"test":{"id":9,"name":"should fail","suiteID":4,"groupIDs":[8],"metadata":{"skip":false,"skipReason":null},"line":4,"column":3,"url":"file:///Users/mike/personal_projects/testui3/test/tests/failing_test.dart"},"type":"testStart","time":229}
+{"testID":1,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":233}
+{"group":{"id":10,"suiteID":0,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":8,"line":null,"column":null,"url":null},"type":"group","time":233}
+{"group":{"id":11,"suiteID":0,"parentID":10,"name":"TestEventParser","metadata":{"skip":false,"skipReason":null},"testCount":8,"line":6,"column":3,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"group","time":233}
+{"test":{"id":12,"name":"TestEventParser should fail","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":9,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":234}
+{"testID":3,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":236}
+{"group":{"id":13,"suiteID":2,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":8,"line":null,"column":null,"url":null},"type":"group","time":237}
+{"group":{"id":14,"suiteID":2,"parentID":13,"name":"TestEventParser","metadata":{"skip":false,"skipReason":null},"testCount":8,"line":6,"column":3,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"group","time":237}
+{"test":{"id":15,"name":"TestEventParser should fail","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":9,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":237}
+{"testID":7,"result":"success","skipped":false,"hidden":true,"type":"testDone","time":238}
+{"group":{"id":16,"suiteID":6,"parentID":null,"name":"","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":null,"column":null,"url":null},"type":"group","time":239}
+{"group":{"id":17,"suiteID":6,"parentID":16,"name":"TestEventParser","metadata":{"skip":false,"skipReason":null},"testCount":2,"line":6,"column":3,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_test.dart"},"type":"group","time":239}
+{"test":{"id":18,"name":"TestEventParser should parse StartEvent","suiteID":6,"groupIDs":[16,17],"metadata":{"skip":false,"skipReason":null},"line":9,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_test.dart"},"type":"testStart","time":239}
+{"testID":9,"error":"Expected: <false>\n  Actual: <true>\n","stackTrace":"package:matcher                   expect\ntest/tests/failing_test.dart 5:5  main.<fn>\n","isFailure":true,"type":"error","time":247}
+{"testID":9,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":248}
+{"testID":12,"error":"Expected: <false>\n  Actual: <true>\n","stackTrace":"package:matcher                                     expect\ntest/tests/test_event_parser_anothe_test.dart 10:7  main.<fn>.<fn>\n","isFailure":true,"type":"error","time":249}
+{"test":{"id":19,"name":"ok test","suiteID":4,"groupIDs":[8],"metadata":{"skip":false,"skipReason":null},"line":8,"column":3,"url":"file:///Users/mike/personal_projects/testui3/test/tests/failing_test.dart"},"type":"testStart","time":249}
+{"testID":12,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":250}
+{"test":{"id":20,"name":"TestEventParser should parse StartEvent","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":13,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":250}
+{"testID":19,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":250}
+{"testID":15,"error":"Expected: <false>\n  Actual: <true>\n","stackTrace":"package:matcher                                      expect\ntest/tests/test_event_parser_anothe2_test.dart 10:7  main.<fn>.<fn>\n","isFailure":true,"type":"error","time":255}
+{"testID":15,"result":"failure","skipped":false,"hidden":false,"type":"testDone","time":255}
+{"testID":18,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":255}
+{"testID":20,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":255}
+{"test":{"id":21,"name":"TestEventParser should parse StartEvent","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":13,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":256}
+{"test":{"id":22,"name":"TestEventParser should parse SuiteEvent","suiteID":6,"groupIDs":[16,17],"metadata":{"skip":false,"skipReason":null},"line":21,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_test.dart"},"type":"testStart","time":256}
+{"test":{"id":23,"name":"TestEventParser should parse SuiteEvent","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":25,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":256}
+{"testID":22,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":257}
+{"testID":23,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":257}
+{"test":{"id":24,"name":"TestEventParser should parse TestStartEvent","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":37,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":257}
+{"testID":24,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":258}
+{"test":{"id":25,"name":"TestEventParser should parse AllSuitesEvent","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":55,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":259}
+{"testID":25,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":259}
+{"test":{"id":26,"name":"TestEventParser should parse TestDoneEvent","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":64,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":259}
+{"testID":21,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":260}
+{"test":{"id":27,"name":"TestEventParser should parse SuiteEvent","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":25,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":260}
+{"testID":26,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":260}
+{"test":{"id":28,"name":"TestEventParser should parse GroupEvent","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":77,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":260}
+{"testID":27,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":260}
+{"test":{"id":29,"name":"TestEventParser should parse TestStartEvent","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":37,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":261}
+{"testID":28,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":261}
+{"test":{"id":30,"name":"TestEventParser should parse DoneEvent","suiteID":0,"groupIDs":[10,11],"metadata":{"skip":false,"skipReason":null},"line":96,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe_test.dart"},"type":"testStart","time":261}
+{"testID":29,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":262}
+{"testID":30,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":262}
+{"test":{"id":31,"name":"TestEventParser should parse AllSuitesEvent","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":55,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":262}
+{"testID":31,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":263}
+{"test":{"id":32,"name":"TestEventParser should parse TestDoneEvent","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":64,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":263}
+{"testID":32,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":264}
+{"test":{"id":33,"name":"TestEventParser should parse GroupEvent","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":77,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":264}
+{"testID":33,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":264}
+{"test":{"id":34,"name":"TestEventParser should parse DoneEvent","suiteID":2,"groupIDs":[13,14],"metadata":{"skip":false,"skipReason":null},"line":96,"column":5,"url":"file:///Users/mike/personal_projects/testui3/test/tests/test_event_parser_anothe2_test.dart"},"type":"testStart","time":265}
+{"testID":34,"result":"success","skipped":false,"hidden":false,"type":"testDone","time":265}
+{"success":false,"type":"done","time":267}
