@@ -33,8 +33,4 @@ class TestRunner {
       }
     });
   }
-
-  void stopAll() {
-    // _process?.kill();
-  }
 }

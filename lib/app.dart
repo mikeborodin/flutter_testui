@@ -8,7 +8,7 @@ import 'package:testui3/tests/test_event_processor.dart';
 import 'package:testui3/tests/test_events.dart';
 import 'package:testui3/tests/test_runner.dart';
 import 'package:testui3/tests/test_state.dart';
-import 'package:testui3/tree.dart';
+import 'components/tree.dart';
 import 'package:testui3/ui/icons.dart';
 
 class TestUiApp extends StatefulComponent {
@@ -174,15 +174,11 @@ class _TestUiAppState extends State<TestUiApp> {
       return null;
     }
 
-    String name = ' ${root.state != null ? icon(root.state) : ''} ${root.state.name}';
+    final name = ' ${icon(root.state)} ${root.state.name}';
 
     return TreeNode(
       child: name.isNotEmpty
-          ? Text(
-              name,
-              maxLines: 1,
-              style: TextStyle(color: root.state != null ? color(root.state) : null),
-            )
+          ? Text(name, maxLines: 1, style: TextStyle(color: color(root.state)))
           : Divider(),
       children: [for (final child in root.children) buildTree(child)],
     );

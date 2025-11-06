@@ -1,2 +1,6 @@
-[2025-10-16T15:32:30.958754] executableArguments: []
-[2025-10-16T15:32:30.960133] [HotReload] VM service not enabled. Run with --enable-vm-service to enable hot reload.
+[2025-11-06T17:32:48.909736] executableArguments: [--enable-vm-service]
+[2025-11-06T17:32:48.911248] [HotReload] Initializing hot reload support...
+[2025-11-06T17:32:48.928278] [HotReload] VM Service URL: http://127.0.0.1:8181/zeyVEcMG2IA=/
+[2025-11-06T17:32:48.930065] [HotReload] DevTools URL: http://127.0.0.1:8181/zeyVEcMG2IA=/devtools/?uri=ws://127.0.0.1:8181/zeyVEcMG2IA=/ws
+[2025-11-06T17:32:49.190091] [HotReload] Hot reload initialized successfully
+[2025-11-06T17:32:49.190189] [HotReload] Watching for changes in lib/, bin/, and test/ directories...
