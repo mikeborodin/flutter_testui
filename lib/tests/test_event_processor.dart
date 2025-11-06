@@ -51,7 +51,12 @@ class TestEventProcessor {
     for (var fileEntity in fileEntities) {
       final fileNode = TestTreeData(
         type: NodeType.file,
-        state: NodeState(name: "${fileEntity.path} (id:${fileEntity.fileId})", isRunning: false, result: null, skipped: false),
+        state: NodeState(
+          name: "${fileEntity.path} (id:${fileEntity.fileId})",
+          isRunning: false,
+          result: null,
+          skipped: false,
+        ),
         children: _buildChildren(fileEntity),
       );
 
@@ -67,12 +72,12 @@ class TestEventProcessor {
     for (final group in groups.values.where((g) => g.fileId == fileEntity.fileId)) {
       final groupNode = TestTreeData(
         type: NodeType.group,
-        state: NodeState(name: group.name, isRunning: false, result: null, skipped: false),
+        state: NodeState(name: '${group.name} (id:${group.id})', isRunning: false, result: null, skipped: false),
         children: [],
       );
 
       for (var test in testDetails.values.where(
-        (t) => t.fileId == fileEntity.fileId && !t.hidden,
+        (t) => t.fileId == fileEntity.fileId && !t.hidden && t.groups.lastOrNull == group.id,
       )) {
         final testNode = TestTreeData(
           type: NodeType.test,
@@ -112,6 +117,7 @@ class TestEventProcessor {
       state.statusLine = 'group event;';
 
       groups[event.id] = Group(
+        id: event.id,
         name: event.name,
         parentGroup: event.parentID,
         fileId: event.suiteID,
@@ -121,6 +127,7 @@ class TestEventProcessor {
       if (!event.name.startsWith('loading ')) {
         state.statusLine = 'test start';
         testDetails[event.id] = UnitTestState(
+          groups: event.groupIDs,
           fileId: event.suiteID,
           startedAt: event.time,
           name: event.name,

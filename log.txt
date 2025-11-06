@@ -1,46 +1,14 @@
-[2025-11-06T17:56:30.322712] executableArguments: [--enable-vm-service]
-[2025-11-06T17:56:30.324246] [HotReload] Initializing hot reload support...
-[2025-11-06T17:56:30.340630] [HotReload] VM Service URL: http://127.0.0.1:8181/jHhLFLbeHlo=/
-[2025-11-06T17:56:30.342475] [HotReload] DevTools URL: http://127.0.0.1:8181/jHhLFLbeHlo=/devtools/?uri=ws://127.0.0.1:8181/jHhLFLbeHlo=/ws
-[2025-11-06T17:56:30.603778] [HotReload] Hot reload initialized successfully
-[2025-11-06T17:56:30.603856] [HotReload] Watching for changes in lib/, bin/, and test/ directories...
-[2025-11-06T17:56:39.835139] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:56:39.926925] [HotReload] Hot reload successful
-[2025-11-06T17:56:39.927290] [HotReload] Reassembling application...
-[2025-11-06T17:56:39.927738] [HotReload] Application reassembled successfully
-[2025-11-06T17:56:41.736176] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:56:41.827524] [HotReload] Hot reload successful
-[2025-11-06T17:56:41.827785] [HotReload] Reassembling application...
-[2025-11-06T17:56:41.828016] [HotReload] Application reassembled successfully
-[2025-11-06T17:57:02.706405] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:57:02.826072] [HotReload] Hot reload successful
-[2025-11-06T17:57:02.826326] [HotReload] Reassembling application...
-[2025-11-06T17:57:02.826554] [HotReload] Application reassembled successfully
-[2025-11-06T17:57:05.787964] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:57:05.903560] [HotReload] Hot reload successful
-[2025-11-06T17:57:05.903853] [HotReload] Reassembling application...
-[2025-11-06T17:57:05.904123] [HotReload] Application reassembled successfully
-[2025-11-06T17:57:10.614464] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:57:10.722159] [HotReload] Hot reload successful
-[2025-11-06T17:57:10.722412] [HotReload] Reassembling application...
-[2025-11-06T17:57:10.722655] [HotReload] Application reassembled successfully
-[2025-11-06T17:57:12.593880] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:57:12.661666] [HotReload] Hot reload successful
-[2025-11-06T17:57:12.662028] [HotReload] Reassembling application...
-[2025-11-06T17:57:12.662349] [HotReload] Application reassembled successfully
-[2025-11-06T17:57:13.784113] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:57:13.823680] [HotReload] Hot reload successful
-[2025-11-06T17:57:13.824107] [HotReload] Reassembling application...
-[2025-11-06T17:57:13.824510] [HotReload] Application reassembled successfully
-[2025-11-06T17:57:16.872160] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:57:16.936695] [HotReload] Hot reload successful
-[2025-11-06T17:57:16.936968] [HotReload] Reassembling application...
-[2025-11-06T17:57:16.937217] [HotReload] Application reassembled successfully
-[2025-11-06T17:57:27.602883] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:57:27.681330] [HotReload] Hot reload successful
-[2025-11-06T17:57:27.681595] [HotReload] Reassembling application...
-[2025-11-06T17:57:27.681838] [HotReload] Application reassembled successfully
-[2025-11-06T17:58:14.290283] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T17:58:14.391355] [HotReload] Hot reload successful
-[2025-11-06T17:58:14.391649] [HotReload] Reassembling application...
-[2025-11-06T17:58:14.391918] [HotReload] Application reassembled successfully
+[2025-11-06T18:14:32.264208] executableArguments: [--enable-vm-service]
+[2025-11-06T18:14:32.266221] [HotReload] Initializing hot reload support...
+[2025-11-06T18:14:32.284069] [HotReload] VM Service URL: http://127.0.0.1:8181/sTlZ3rLySks=/
+[2025-11-06T18:14:32.286436] [HotReload] DevTools URL: http://127.0.0.1:8181/sTlZ3rLySks=/devtools/?uri=ws://127.0.0.1:8181/sTlZ3rLySks=/ws
+[2025-11-06T18:14:32.546844] [HotReload] Hot reload initialized successfully
+[2025-11-06T18:14:32.546927] [HotReload] Watching for changes in lib/, bin/, and test/ directories...
+[2025-11-06T18:15:54.914721] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
+[2025-11-06T18:15:55.002247] [HotReload] Hot reload successful
+[2025-11-06T18:15:55.002640] [HotReload] Reassembling application...
+[2025-11-06T18:15:55.003014] [HotReload] Application reassembled successfully
+[2025-11-06T18:16:01.768001] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
+[2025-11-06T18:16:01.873302] [HotReload] Hot reload successful
+[2025-11-06T18:16:01.873569] [HotReload] Reassembling application...
+[2025-11-06T18:16:01.873721] [HotReload] Application reassembled successfully

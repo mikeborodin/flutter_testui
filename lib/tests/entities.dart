@@ -3,20 +3,27 @@ import 'test_events.dart';
 class Group {
   final int? parentGroup;
   final int fileId;
+  final int id;
   final String name;
 
-  Group({required this.name, required this.parentGroup, required this.fileId});
+  Group({required this.id, required this.name, required this.parentGroup, required this.fileId});
 }
 
 class UnitTestState {
   final int fileId;
   final int startedAt;
+  final List<int> groups;
   final String name;
   int? finishedAt;
   bool hidden = false;
   TestResult? result;
 
-  UnitTestState({required this.fileId, required this.startedAt, required this.name});
+  UnitTestState({
+    required this.fileId,
+    required this.groups,
+    required this.startedAt,
+    required this.name,
+  });
 }
 
 class FileSystemEntity {
