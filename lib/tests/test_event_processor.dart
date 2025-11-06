@@ -2,36 +2,8 @@ import 'package:testui3/app_state.dart';
 import 'package:testui3/tests/test_events.dart';
 import 'package:testui3/tests/test_state.dart';
 
+import 'entities.dart';
 import 'utils.dart';
-
-class Group {
-  final int? parentGroup;
-  final int fileId;
-  final String name;
-
-  Group({required this.name, required this.parentGroup, required this.fileId});
-}
-
-class UnitTestState {
-  final int fileId;
-  final int startedAt;
-  final String name;
-  int? finishedAt;
-  bool hidden = false;
-  TestResult? result;
-
-  UnitTestState({required this.fileId, required this.startedAt, required this.name});
-}
-
-class FileSystemEntity {
-  final String name;
-  final int? fileId;
-
-  // if set this is is a folder, otherwise a file.
-  List<FileSystemEntity> children;
-
-  FileSystemEntity({required this.name, this.fileId, required this.children});
-}
 
 class TestEventProcessor {
   final AppState state;
@@ -47,10 +19,10 @@ class TestEventProcessor {
   void process(dynamic event) {
     _set(event);
 
-    state.logs
-      ..clear()
-      ..addAll(files.values);
+    state.logs.add('Event: ${event.type}');
+
     state.tree = buildTree();
+
     history.add(event);
   }
 
@@ -70,7 +42,7 @@ class TestEventProcessor {
   TestTreeData buildTree() {
     final root = TestTreeData(
       type: NodeType.root,
-      state: NodeState(name: 'tests', isRunning: true, result: null, skipped: false),
+      state: NodeState(name: '🌳', isRunning: false, result: null, skipped: false),
       children: [],
     );
 
@@ -79,7 +51,7 @@ class TestEventProcessor {
     for (var fileEntity in fileEntities) {
       final fileNode = TestTreeData(
         type: NodeType.file,
-        state: NodeState(name: fileEntity.name, isRunning: false, result: null, skipped: false),
+        state: NodeState(name: "${fileEntity.path} (id:${fileEntity.fileId})", isRunning: false, result: null, skipped: false),
         children: _buildChildren(fileEntity),
       );
 

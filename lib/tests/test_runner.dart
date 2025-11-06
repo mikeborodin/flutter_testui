@@ -8,7 +8,9 @@ class TestRunner {
   final String testCommand;
 
   TestRunner(this.testCommand);
+
   final StreamController<dynamic> _controller = StreamController<dynamic>();
+
   Process? _process;
 
   Stream<dynamic> get stream => _controller.stream;
@@ -16,6 +18,7 @@ class TestRunner {
   Future<void> runAll() async {
     final parser = TestEventParser();
     final commandParts = testCommand.split(' ');
+
     _process = await Process.start(
       commandParts[0],
       commandParts.sublist(1),

@@ -8,4 +8,13 @@ void main() {
   test('ok test', () {
     expect(true, true);
   });
+
+  group('group1', () {
+    test('child 1', () {
+      expect(true, true);
+    });
+    test('child 2', () {
+      expect(true, true);
+    });
+  });
 }
