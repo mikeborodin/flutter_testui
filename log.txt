@@ -1,14 +1,38 @@
-[2025-11-06T18:14:32.264208] executableArguments: [--enable-vm-service]
-[2025-11-06T18:14:32.266221] [HotReload] Initializing hot reload support...
-[2025-11-06T18:14:32.284069] [HotReload] VM Service URL: http://127.0.0.1:8181/sTlZ3rLySks=/
-[2025-11-06T18:14:32.286436] [HotReload] DevTools URL: http://127.0.0.1:8181/sTlZ3rLySks=/devtools/?uri=ws://127.0.0.1:8181/sTlZ3rLySks=/ws
-[2025-11-06T18:14:32.546844] [HotReload] Hot reload initialized successfully
-[2025-11-06T18:14:32.546927] [HotReload] Watching for changes in lib/, bin/, and test/ directories...
-[2025-11-06T18:15:54.914721] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T18:15:55.002247] [HotReload] Hot reload successful
-[2025-11-06T18:15:55.002640] [HotReload] Reassembling application...
-[2025-11-06T18:15:55.003014] [HotReload] Application reassembled successfully
-[2025-11-06T18:16:01.768001] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/test_event_processor.dart
-[2025-11-06T18:16:01.873302] [HotReload] Hot reload successful
-[2025-11-06T18:16:01.873569] [HotReload] Reassembling application...
-[2025-11-06T18:16:01.873721] [HotReload] Application reassembled successfully
+[2025-11-07T12:01:41.088403] executableArguments: [--enable-vm-service]
+[2025-11-07T12:01:41.089852] [HotReload] Initializing hot reload support...
+[2025-11-07T12:01:41.106634] [HotReload] VM Service URL: http://127.0.0.1:8181/7Y-JQXeD6fI=/
+[2025-11-07T12:01:41.108803] [HotReload] DevTools URL: http://127.0.0.1:8181/7Y-JQXeD6fI=/devtools/?uri=ws://127.0.0.1:8181/7Y-JQXeD6fI=/ws
+[2025-11-07T12:01:41.370748] [HotReload] Hot reload initialized successfully
+[2025-11-07T12:01:41.370834] [HotReload] Watching for changes in lib/, bin/, and test/ directories...
+[2025-11-07T12:03:10.915382] [HotReload] Change detected: /Users/mike/personal_projects/testui3/test/test_event_parser_anothe2_test.dart
+[2025-11-07T12:03:10.926269] [HotReload] Hot reload successful
+[2025-11-07T12:03:10.926421] [HotReload] Reassembling application...
+[2025-11-07T12:03:10.926651] [HotReload] Application reassembled successfully
+[2025-11-07T12:04:51.413522] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:04:51.510614] [HotReload] Hot reload successful
+[2025-11-07T12:04:51.510919] [HotReload] Reassembling application...
+[2025-11-07T12:04:51.511226] [HotReload] Application reassembled successfully
+[2025-11-07T12:05:35.749089] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:05:35.828204] [HotReload] Compilation error during hot reload
+[2025-11-07T12:05:48.699319] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:05:48.788748] [HotReload] Hot reload successful
+[2025-11-07T12:05:48.789009] [HotReload] Reassembling application...
+[2025-11-07T12:05:48.789277] [HotReload] Application reassembled successfully
+[2025-11-07T12:06:02.223255] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:06:02.271392] [HotReload] Compilation error during hot reload
+[2025-11-07T12:06:07.514076] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:06:07.539372] [HotReload] Compilation error during hot reload
+[2025-11-07T12:06:08.544470] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:06:08.646690] [HotReload] Hot reload successful
+[2025-11-07T12:06:08.646969] [HotReload] Reassembling application...
+[2025-11-07T12:06:08.647248] [HotReload] Application reassembled successfully
+[2025-11-07T12:06:22.305989] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:06:22.354473] [HotReload] Hot reload successful
+[2025-11-07T12:06:22.354783] [HotReload] Reassembling application...
+[2025-11-07T12:06:22.355069] [HotReload] Application reassembled successfully
+[2025-11-07T12:11:24.284461] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:11:24.313065] [HotReload] Compilation error during hot reload
+[2025-11-07T12:11:25.453995] [HotReload] Change detected: /Users/mike/personal_projects/testui3/lib/tests/utils.dart
+[2025-11-07T12:11:25.547296] [HotReload] Hot reload successful
+[2025-11-07T12:11:25.547575] [HotReload] Reassembling application...
+[2025-11-07T12:11:25.547843] [HotReload] Application reassembled successfully

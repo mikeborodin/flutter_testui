@@ -47,8 +47,10 @@ class TestEventProcessor {
     );
 
     final fileEntities = convertPathsToFsTree(files);
+      state.logs.add('file ${files.entries}');
 
     for (var fileEntity in fileEntities) {
+
       final fileNode = TestTreeData(
         type: NodeType.file,
         state: NodeState(
@@ -72,7 +74,12 @@ class TestEventProcessor {
     for (final group in groups.values.where((g) => g.fileId == fileEntity.fileId)) {
       final groupNode = TestTreeData(
         type: NodeType.group,
-        state: NodeState(name: '${group.name} (id:${group.id})', isRunning: false, result: null, skipped: false),
+        state: NodeState(
+          name: '${group.name} (id:${group.id})',
+          isRunning: false,
+          result: null,
+          skipped: false,
+        ),
         children: [],
       );
 
