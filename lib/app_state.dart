@@ -23,7 +23,7 @@ class AppState {
   TestTreeData? tree;
 }
 
-enum NodeType { root, file, group, test }
+enum NodeType { root, folder, file, group, test }
 
 class TestTreeData {
   final NodeState state;

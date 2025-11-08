@@ -19,7 +19,7 @@ class TestEventProcessor {
   void process(dynamic event) {
     _set(event);
 
-    state.logs.add('Event: ${event.type}');
+    // state.logs.add('Event: ${event.type}');
 
     state.tree = buildTree();
 
@@ -47,14 +47,13 @@ class TestEventProcessor {
     );
 
     final fileEntities = convertPathsToFsTree(files);
-      state.logs.add('file ${files.entries}');
+    state.logs.add('file ${files.entries.length}');
 
     for (var fileEntity in fileEntities) {
-
       final fileNode = TestTreeData(
-        type: NodeType.file,
+        type: fileEntity.fileId != null ? NodeType.file : NodeType.folder,
         state: NodeState(
-          name: "${fileEntity.path} (id:${fileEntity.fileId})",
+          name: "${fileEntity.path} (name:${fileEntity.name}) (id:${fileEntity.fileId})",
           isRunning: false,
           result: null,
           skipped: false,
@@ -70,6 +69,24 @@ class TestEventProcessor {
 
   List<TestTreeData> _buildChildren(FileSystemEntity fileEntity) {
     final children = <TestTreeData>[];
+
+    if (fileEntity.fileId == null) {
+      return fileEntity.children.map((e) {
+      final type = e.fileId != null ? NodeType.file : NodeType.folder;
+      var name =  e.name;
+      if(type == NodeType.folder){
+         name  = '  $name';
+      }
+      if(type == NodeType.file){
+         name  = '  $name';
+      }
+        return TestTreeData(
+          type: type,
+          state: NodeState(name: name, isRunning: false, result: null, skipped: false),
+          children: _buildChildren(e),
+        );
+      }).toList();
+    }
 
     for (final group in groups.values.where((g) => g.fileId == fileEntity.fileId)) {
       final groupNode = TestTreeData(

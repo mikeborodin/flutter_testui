@@ -11,31 +11,63 @@ List<String> removeCwdPrefix(List<String> input, String? cwd) {
   }).toList();
 }
 
-List<FileSystemEntity> convertPathsToFsTree(Map<int, String> fullPaths) {
-  final Map<String, FileSystemEntity> rootEntities = {};
+void fillChildrenFor(FileSystemEntity parentFolder, List<String> fileToSplit, int endFileId) {
+  if (fileToSplit.length == 1) {
+    final name = fileToSplit.firstOrNull ?? '';
+    final file = FileSystemEntity(
+      name: name,
+      path: [parentFolder.path, ...fileToSplit].join('/'),
+      fileId: endFileId,
+      children: [],
+    );
+    if (!parentFolder.children.any((n) => n.name == name)) {
+      parentFolder.children.add(file);
+    }
+  } else if (fileToSplit.length > 1) {
+    final name = fileToSplit.firstOrNull ?? '';
 
-  for (var entry in fullPaths.entries) {
-    // final pathComponents = entry.value.split('/');
-    final pathComponents = [entry.value];
-    Map<String, FileSystemEntity> currentLevel = rootEntities;
+    final folder = FileSystemEntity(
+      name: name,
+      path: [parentFolder.path, ...fileToSplit].join('/'),
+      fileId: null,
+      children: [],
+    );
+    fillChildrenFor(folder, fileToSplit.sublist(1), endFileId);
 
-    for (var i = 0; i < pathComponents.length; i++) {
-      final part = pathComponents[i];
-
-      if (!currentLevel.containsKey(part)) {
-        currentLevel[part] = FileSystemEntity(
-          name: part,
-          path: entry.value,
-          fileId: entry.key,
-          children: [],
-        );
-      }
-
-      if (i < pathComponents.length - 1) {
-        currentLevel = {for (var child in currentLevel[part]?.children ?? []) child.name: child};
-      }
+    if (!parentFolder.children.any((n) => n.name == name)) {
+      parentFolder.children.add(folder);
     }
   }
+}
 
-  return rootEntities.values.toList();
+List<FileSystemEntity> convertPathsToFsTree(Map<int, String> fullPaths) {
+  final List<FileSystemEntity> list = [];
+
+  Map<String, FileSystemEntity> rootFolders = {};
+  for (var entry in fullPaths.entries) {
+    final pathComponents = entry.value.split('/');
+
+    if (pathComponents.length > 1) {
+      final path = pathComponents.firstOrNull ?? '<error>';
+      final folder = rootFolders.putIfAbsent(path, () {
+        return FileSystemEntity(name: path, path: path, fileId: null, children: []);
+      });
+
+      fillChildrenFor(folder, pathComponents.sublist(1), entry.key);
+    } else if (pathComponents.length == 1) {
+      final file = FileSystemEntity(
+        name: entry.value,
+        path: pathComponents.join('/'),
+        fileId: entry.key,
+        children: [],
+      );
+
+      list.add(file);
+    }
+  }
+  for (final f in rootFolders.values) {
+    list.add(f);
+  }
+
+  return list;
 }
